@@ -1,19 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/15 16:42:20 by jgwon             #+#    #+#             */
+/*   Updated: 2022/05/15 16:42:45 by jgwon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-/*
-역할 : dest 의 처음부터 n 바이트까지 0으로 세팅
-*/
-void    ft_bzero(void *dest, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-    size_t          i;
-    unsigned char   *temp;
-
-    i = 0;
-    temp = dest;
-    while (i < n)
-    {
-        temp[i] = 0;
-        i++;
-    }
-    return ;
+	ft_memset(s, 0, n);
 }

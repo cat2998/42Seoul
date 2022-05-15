@@ -1,41 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/24 21:31:12 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 16:58:22 by jgwon            ###   ########.fr       */
+/*   Created: 2022/04/24 19:44:56 by jgwon             #+#    #+#             */
+/*   Updated: 2022/05/15 16:53:55 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t			i;
-	unsigned char	*dest_temp;
-	unsigned char	*src_temp;
+	size_t	i;
 
 	i = 0;
-	dest_temp = dest;
-	src_temp = (unsigned char *)src;
-	if (dest < src)
+	if (dstsize > 0)
 	{
-		while (i < n)
+		while (i < (dstsize - 1) && src[i] != '\0')
 		{
-			dest_temp[i] = src_temp[i];
+			dst[i] = src[i];
 			i++;
 		}
+		dst[i] = '\0';
 	}
-	else
+	i = 0;
+	while (src[i] != '\0')
 	{
-		while (i < n)
-		{
-			dest_temp[n - 1 - i] = src_temp[n - 1 - i];
-			i++;
-		}
+		i++;
 	}
-	return (dest);
+	return (i);
 }
