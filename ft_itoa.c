@@ -13,41 +13,30 @@
 #include "libft.h"
 
 int	ft_size(int n);
+int	ft_abs(int n);
 
 char	*ft_itoa(int n)
 {
 	int		size;
+	int		minus;
 	char	*str;
 
-	if (n == -2147483648)
-	{
-
-	}
-	size = ft_size(n) + 1;
-	str = (char *)malloc(sizeof(char) * size);
+	minus = 1;
+	if (n < 0)
+		minus *= -1;
+	size = ft_size(n);
+	str = (char *)malloc(sizeof(char) * (size + 1));
 	if (!str)
 		return (0);
-	str[size - 1] = '\0';
-	if (n < 0)
+	str[size--] = '\0';
+	while (size >= 0)
 	{
-		n *= -1;
+		str[size] = ft_abs(n % 10) + 48;
+		n = n / 10;
+		size--;
+	}
+	if (minus == -1)
 		str[0] = '-';
-		while (size > 2)
-		{
-			str[size - 2] = n % 10 + 48;
-			n = n / 10;
-			size--;
-		}
-	}
-	else
-	{
-		while (size > 1)
-		{
-			str[size - 2] = n % 10 + 48;
-			n = n / 10;
-			size--;
-		}
-	}
 	return (str);
 }
 
@@ -68,10 +57,10 @@ int	ft_size(int n)
 	return (count);
 }
 
-#include <stdio.h>
-int main(void)
+int	ft_abs(int n)
 {
-	printf("%s\n", ft_itoa(00));
-	printf("%s\n", ft_itoa(+2147483647));
-	printf("%s\n", ft_itoa(-217));
+	if (n < 0)
+		return (n * -1);
+	return (n);
 }
+
