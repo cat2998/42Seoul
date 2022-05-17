@@ -59,6 +59,7 @@ int	ft_minus(const char *str, int *str_i)
 	{
 		if (str[i] == '-')
 			minus *= -1;
+		i++;
 	}
 	*str_i = i;
 	return (minus);
