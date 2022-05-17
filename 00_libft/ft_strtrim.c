@@ -22,8 +22,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 	char	*str;
 
+	if (!s1 || !set)
+		return ((char *)s1);
 	begin = ft_setbegin(s1, set);
 	end = ft_setend(s1, set);
+	if (begin >= end)
+		return (ft_strdup(""));
 	str = (char *)malloc(sizeof(char) * (end - begin + 1));
 	if (!str)
 		return (0);

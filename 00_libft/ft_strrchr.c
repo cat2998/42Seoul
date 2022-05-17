@@ -19,14 +19,11 @@ char	*ft_strrchr(const char *s, int c)
 
 	temp = (char *)s;
 	size = ft_strlen(s);
-	if (size != 0)
+	while (size >= 0)
 	{
-		while (size > 0)
-		{
-			if (temp[size - 1] == (char)c)
-				return (&temp[size - 1]);
-			size--;
-		}
+		if (temp[size] == (char)c)
+			return (&temp[size]);
+		size--;
 	}
 	return (0);
 }

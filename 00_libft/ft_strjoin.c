@@ -21,7 +21,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	total_size = 0;
 	total_size = ft_strlen(s1) + ft_strlen(s2);
 	arr = (char *)malloc(sizeof(char) * (total_size + 1));
 	if (!arr)
@@ -32,10 +31,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	while (s2[j] != '\0')
-	{
-		arr[i] = s2[j];
-		j++;
-	}
+		arr[i++] = s2[j++];
 	arr[i] = '\0';
 	return (arr);
 }
