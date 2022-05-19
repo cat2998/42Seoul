@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 16:45:32 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 17:20:31 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:30:59 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	ft_atoi(const char *str)
 	{
 		result *= 10;
 		result += str[i] - '0';
+		if (result > 2147483647 && minus == 1)
+			return (-1);
+		if (result > 2147483648 && minus == -1)
+			return (0);
 		i++;
 	}
 	result *= minus;
