@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:34:52 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 20:15:39 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:54:28 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ size_t	ft_setbegin(char const *s1, char const *set)
 	while (i < len)
 	{
 		if (ft_strchr(set, s1[i]) == 0)
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -64,7 +64,7 @@ size_t	ft_setend(char const *s1, char const *set)
 	while (i < len)
 	{
 		if (ft_strchr(set, s1[len - 1 - i]) == 0)
-			break;
+			break ;
 		i++;
 	}
 	return (len - i);

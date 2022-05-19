@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 20:16:10 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 21:39:19 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:51:47 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 
 int	ft_size(int n)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (n == 0)
@@ -63,4 +63,3 @@ int	ft_abs(int n)
 		return (n * -1);
 	return (n);
 }
-

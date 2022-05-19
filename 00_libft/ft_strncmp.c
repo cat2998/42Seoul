@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 19:49:43 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 16:54:29 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:56:26 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	size_t			i;
 	unsigned char	*temp1;
 	unsigned char	*temp2;
 

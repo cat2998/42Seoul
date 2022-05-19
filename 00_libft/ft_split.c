@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 19:33:20 by jgwon             #+#    #+#             */
-/*   Updated: 2022/05/15 20:15:06 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/05/19 21:28:29 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		ft_compare(char const *str, char c, int i);
 char	**ft_split_s(char **split, char const *s, char c, int size);
-char	*ft_strncpy(char const *s, int begin, int len, char *str);
-void	ft_split_free(char **split, int split_i);
+char	*ft_strcpy(char const *s, int begin, int len, char *str);
+void	*ft_split_free(char **split, int split_i);
 
 char	**ft_split(char const *s, char c)
 {
@@ -25,6 +25,8 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	count = 0;
+	if (!s)
+		return (0);
 	while (s[i] != '\0')
 	{
 		if (!ft_compare(s, c, i)
@@ -63,11 +65,8 @@ char	**ft_split_s(char **split, char const *s, char c, int size)
 		{
 			str = (char *)malloc(sizeof(char) * (i - begin) + 1);
 			if (!str)
-			{
-				ft_split_free(split, split_i);
-				return (0);
-			}
-			split[split_i++] = ft_strncpy(s, begin, i - begin, str);
+				return (ft_split_free(split, split_i));
+			split[split_i++] = ft_strcpy(s, begin, i - begin, str);
 			begin = -1;
 		}
 		i++;
@@ -76,7 +75,7 @@ char	**ft_split_s(char **split, char const *s, char c, int size)
 	return (split);
 }
 
-char	*ft_strncpy(char const *s, int begin, int len, char *str)
+char	*ft_strcpy(char const *s, int begin, int len, char *str)
 {
 	int	i;
 
@@ -90,7 +89,7 @@ char	*ft_strncpy(char const *s, int begin, int len, char *str)
 	return (str);
 }
 
-void	ft_split_free(char **split, int split_i)
+void	*ft_split_free(char **split, int split_i)
 {
 	int	i;
 
@@ -101,5 +100,5 @@ void	ft_split_free(char **split, int split_i)
 		i++;
 	}
 	free(split);
-	return ;
+	return (0);
 }
