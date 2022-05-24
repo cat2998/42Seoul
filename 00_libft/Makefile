@@ -43,8 +43,8 @@ CFLAGS	= -Wall -Wextra -Werror
 
 NAME	= libft.a
 
-.c.o:
-		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+%.o:	%.c
+		$(CC) $(CFLAGS) -c $< -o $@
 
 all:		$(NAME)
 
@@ -54,7 +54,8 @@ clean:
 fclean:		clean
 			$(RM) $(NAME)
 
-re:			clean all
+re:			$(MAKE) fclean
+			$(MAKE) all
 
 $(NAME):	$(OBJS)
 			$(AR) $@ $^
