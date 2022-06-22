@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:28:21 by jgwon             #+#    #+#             */
-/*   Updated: 2022/06/08 21:33:23 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/06/22 21:47:14 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		total_size;
@@ -101,54 +100,79 @@ int	ft_strchr(const char *s, int c)
 			return (i);
 		i++;
 	}
-	if (temp[i] == (char)c)
-		return (i);
 	return (-1);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+
+	if (!s)
+		return (0);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	if (start + len > ft_strlen(s))
+		len = ft_strlen(s) - start;
+	str = (char *)malloc(sizeof(char) * len);
+	if (!str)
+		return (0);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*buf;
+	int		read_size;
+	char	buf[BUFFER_SIZE + 1];
 	int		i;
-	char	*sum = NULL;
-	char	*result = NULL;
+	char	*result = 0;
+	static char	*sum = 0;
 
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if(!buf)
-		return (0);
-
-	while (read(fd, buf, BUFFER_SIZE) > 0)
+	while ((read_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
+		buf[read_size] = '\0';
 		sum = ft_strjoin(sum, buf);
-		printf("sum : %s||\n", sum);
-		if ((i = ft_strchr(sum, '\n')) >= 0)
+		i = ft_strchr(sum, '\n');
+		if (i >= 0)
 		{
-			printf("find \\n!!\n");
 			result = (char *)malloc(sizeof(char) * (i + 1));
 			if(!result)
 				return (0);
-			int j = 0;
-			while (i >= 0)
-			{
-				result[j] = sum[j];
-				j++;
-				i--;
-			}
-			printf("result : %s\n", result);
-			break ;
+			ft_memcpy(result, sum, i + 1);
+			sum = ft_substr(sum, i + 1, ft_strlen(sum) - i - 1);
+			return (result);
 		}
 	}
-	free(buf);
-	return result;
+	i = ft_strchr(sum, '\n');
+	if (i >= 0)
+	{
+		result = (char *)malloc(sizeof(char) * (i + 1));
+		if(!result)
+			return (0);
+		ft_memcpy(result, sum, i + 1);
+		sum = ft_substr(sum, i + 1, ft_strlen(sum) - i - 1);
+		return (result);
+	}
+	return (result);
 }
 
 #include <fcntl.h>
 int main(void)
 {
 	int	fd;
+	char *answer;
 	if (0 < (fd = open("./test.txt", O_RDONLY)))
 	{
-		get_next_line(fd);
+		while ((answer = get_next_line(fd)) != 0)
+		{
+			printf("return : %s", answer);
+		}
 		close(fd);
 	}
 	else
