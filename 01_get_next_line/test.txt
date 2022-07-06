@@ -7,16 +7,13 @@
 123
 1234
 12345
-fjdlsa;fjdlsafjdlskajf;lj
-fldjsafhds
-fjdklfj
-fjdklfjf
-fjdklfj
+ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ
+abcdefghi
+ㅏㅑㅓㅕㅗㅛㅜㅠ
+ABCDEF
+ㄲㄸㅃㅆ
 
 
 
-fjdklfjf
-fjdklfj
-
-
-
+12345
+789
