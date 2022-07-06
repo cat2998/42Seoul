@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:28:21 by jgwon             #+#    #+#             */
-/*   Updated: 2022/06/22 21:47:14 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/06 20:23:25 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ char	*get_next_line(int fd)
 			if(!result)
 				return (0);
 			ft_memcpy(result, sum, i + 1);
-			sum = ft_substr(sum, i + 1, ft_strlen(sum) - i - 1);
+			sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
 			return (result);
 		}
 	}
@@ -156,7 +156,7 @@ char	*get_next_line(int fd)
 		if(!result)
 			return (0);
 		ft_memcpy(result, sum, i + 1);
-		sum = ft_substr(sum, i + 1, ft_strlen(sum) - i - 1);
+		sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
 		return (result);
 	}
 	return (result);
