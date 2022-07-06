@@ -6,101 +6,61 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:28:21 by jgwon             #+#    #+#             */
-/*   Updated: 2022/07/06 20:23:25 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/07 02:35:34 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#include <stdio.h>
+char	*ft_read_to_newline(int fd, char *sum)
+{
+	char	*buf;
+	int		read_size;
 
-size_t	ft_strlen(const char *s)
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if(!buf)
+		return (0);
+	read_size = 1;
+	while (ft_strchr(sum, '\n') < 0 && read_size != 0)
+	{
+		read_size = read(fd, buf, BUFFER_SIZE);
+		if (read_size == -1)
+		{
+			free(buf);
+			return (0);
+		}
+		buf[read_size] = '\0';
+		sum = ft_strjoin(sum, buf);
+	}
+	return (sum);
+}
+
+int	ft_find_newline(char *sum)
+{
+	int	i;
+
+	i = 0;
+	while (sum[i] != '\0' && sum[i] != '\n')
+		i++;
+	return (i);
+}
+
+char	*ft_get_line(char *sum, int n)
 {
 	int		i;
-	size_t	count;
+	char	*result;
 
-	i = 0;
-	count = 0;
-	while (s[i] != '\0')
-	{
-		count++;
-		i++;
-	}
-	return (count);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	int		size;
-	char	*copy;
-
-	size = ft_strlen(s1);
-	copy = (char *)malloc(sizeof(char) * (size + 1));
-	if (!copy)
+	result = (char *)malloc(sizeof(char) * (n + 2));
+	if(!result)
 		return (0);
 	i = 0;
-	while (i < size + 1)
+	while (i < n + 1)
 	{
-		copy[i] = s1[i];
+		result[i] = sum[i];
 		i++;
 	}
-	return (copy);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t			i;
-	unsigned char	*dest_temp;
-	unsigned char	*src_temp;
-
-	if (!dest && !src)
-		return (0);
-	i = 0;
-	dest_temp = dest;
-	src_temp = (unsigned char *)src;
-	while (i < n)
-	{
-		dest_temp[i] = src_temp[i];
-		i++;
-	}
-	return (dest);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		total_size;
-	char	*arr;
-
-	if (!s1 && !s2)
-		return (0);
-	if (!s1)
-		return (ft_strdup(s2));
-	else if (!s2)
-		return (ft_strdup(s1));
-	total_size = ft_strlen(s1) + ft_strlen(s2);
-	arr = (char *)malloc(sizeof(char) * (total_size + 1));
-	if (!arr)
-		return (0);
-	ft_memcpy(arr, s1, ft_strlen(s1));
-	ft_memcpy(arr + ft_strlen(s1), s2, ft_strlen(s2) + 1);
-	return (arr);
-}
-
-int	ft_strchr(const char *s, int c)
-{
-	int		i;
-	char	*temp;
-
-	i = 0;
-	temp = (char *)s;
-	while (temp[i] != '\0')
-	{
-		if (temp[i] == (char)c)
-			return (i);
-		i++;
-	}
-	return (-1);
+	result[i] = '\0';
+	return (result);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -110,10 +70,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (0);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	if (start + len > ft_strlen(s))
-		len = ft_strlen(s) - start;
+	// if (start > ft_strlen(s))
+	// 	return (ft_strdup(""));
+	// if (start + len > ft_strlen(s))
+	// 	len = ft_strlen(s) - start;
 	str = (char *)malloc(sizeof(char) * len);
 	if (!str)
 		return (0);
@@ -128,41 +88,22 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 char	*get_next_line(int fd)
 {
-	int		read_size;
-	char	buf[BUFFER_SIZE + 1];
-	int		i;
-	char	*result = 0;
-	static char	*sum = 0;
+	int			i;
+	char		*line;
+	static char	*sum;
 
-	while ((read_size = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		buf[read_size] = '\0';
-		sum = ft_strjoin(sum, buf);
-		i = ft_strchr(sum, '\n');
-		if (i >= 0)
-		{
-			result = (char *)malloc(sizeof(char) * (i + 1));
-			if(!result)
-				return (0);
-			ft_memcpy(result, sum, i + 1);
-			sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
-			return (result);
-		}
-	}
-	i = ft_strchr(sum, '\n');
-	if (i >= 0)
-	{
-		result = (char *)malloc(sizeof(char) * (i + 1));
-		if(!result)
-			return (0);
-		ft_memcpy(result, sum, i + 1);
-		sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
-		return (result);
-	}
-	return (result);
+	sum = ft_read_to_newline(fd, sum);//printf("sum : %s\n", sum);
+	if (!sum)
+		return (0);
+	i = ft_find_newline(sum);//printf("i : %d\n", i);
+	line = ft_get_line(sum, i);//printf("line : %s\n", line);
+	sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
+	//printf("after : %s\n", sum);
+	return (line);
 }
 
 #include <fcntl.h>
+#include <stdio.h>
 int main(void)
 {
 	int	fd;
