@@ -92,7 +92,7 @@ int	ft_strchr(const char *s, int c)
 
 	i = 0;
     if (!s)
-        return (-1);
+		return (-1);
 	temp = (char *)s;
 	while (temp[i] != '\0')
 	{
