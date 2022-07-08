@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/08 20:40:33 by jgwon             #+#    #+#             */
+/*   Updated: 2022/07/08 21:44:13 by jgwon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
@@ -53,7 +64,7 @@ char	*ft_get_line(char *sum, int n)
 	return (result);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*str;
@@ -68,6 +79,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	str[i] = '\0';
+	free(s);
 	return (str);
 }
 
@@ -79,7 +91,10 @@ char	*get_next_line(int fd)
 
 	sum[fd] = ft_read_to_newline(fd, sum[fd]);
 	if (!sum[fd] || sum[fd][0] == '\0')
+	{
+		free(sum[fd]);
 		return (0);
+	}
 	i = ft_find_newline(sum[fd]);
 	line = ft_get_line(sum[fd], i);
 	sum[fd] = ft_substr(sum[fd], i + 1, ft_strlen(sum[fd]) - i);
@@ -88,40 +103,40 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-int main(void)
-{
-	int	fd1, fd2, fd3;
-	char *answer1, *answer2, *answer3;
+// #include <fcntl.h>
+// #include <stdio.h>
+// int main(void)
+// {
+// 	int	fd1, fd2, fd3;
+// 	char *answer1 = 0, *answer2 = 0, *answer3;
 
-	fd1 = open("./test.txt", O_RDONLY);
-	fd2 = open("./test2.txt", O_RDONLY);
-	fd3 = open("./test3.txt", O_RDONLY);
-	if (0 < fd1 && 0 < fd2 && 0 < fd3)
-	{
-		while (answer1 != 0 || answer2 != 0 || answer3 != 0)
-		{
-			if ((answer1 = get_next_line(fd1)) != 0)
-			{
-				printf("fd1 : %s", answer1);
-			}
-			if ((answer2 = get_next_line(fd2)) != 0)
-			{
-				printf("fd2 : %s", answer2);
-			}
-			if ((answer3 = get_next_line(fd3)) != 0)
-			{
-				printf("fd3 : %s", answer3);
-			}
-		}
-	}
-	else
-	{
-		printf("파일 읽기 실패");
-	}
-	close(fd1);
-	close(fd2);
-	close(fd3);
-	return 0;
-}
+// 	fd1 = open("./test.txt", O_RDONLY);
+// 	fd2 = open("./test2.txt", O_RDONLY);
+// 	fd3 = open("./test3.txt", O_RDONLY);
+// 	if (0 < fd1 && 0 < fd2 && 0 < fd3)
+// 	{
+// 		while (answer1 != 0 || answer2 != 0 || answer3 != 0)
+// 		{
+// 			if ((answer1 = get_next_line(fd1)) != 0)
+// 			{
+// 				printf("fd1 : %s", answer1);
+// 			}
+// 			if ((answer2 = get_next_line(fd2)) != 0)
+// 			{
+// 				printf("fd2 : %s", answer2);
+// 			}
+// 			if ((answer3 = get_next_line(fd3)) != 0)
+// 			{
+// 				printf("fd3 : %s", answer3);
+// 			}
+// 		}
+// 	}
+// 	else
+// 	{
+// 		printf("파일 읽기 실패");
+// 	}
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	return 0;
+// }

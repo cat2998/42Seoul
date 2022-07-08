@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:28:21 by jgwon             #+#    #+#             */
-/*   Updated: 2022/07/07 02:35:34 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/08 22:43:32 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_get_line(char *sum, int n)
 	return (result);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*str;
@@ -79,6 +79,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	str[i] = '\0';
+	free(s);
 	return (str);
 }
 
@@ -90,32 +91,39 @@ char	*get_next_line(int fd)
 
 	sum = ft_read_to_newline(fd, sum);
 	if (!sum || sum[0] == '\0')
+	{
+		free(sum);
 		return (0);
+	}
 	i = ft_find_newline(sum);
 	line = ft_get_line(sum, i);
 	sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
-	if (!line && !sum)
+	if (!line || !sum)
 		return (0);
 	return (line);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-int main(void)
-{
-	int	fd;
-	char *answer;
-	if (0 < (fd = open("./test.txt", O_RDONLY)))
-	{
-		while ((answer = get_next_line(fd)) != 0)
-		{
-			printf("return : %s", answer);
-		}
-		close(fd);
-	}
-	else
-	{
-		printf("파일 읽기 실패");
-	}
-	return 0;
-}
+// #include <fcntl.h>
+// #include <stdio.h>
+// int main(void)
+// {
+// 	int	fd;
+// 	char *answer;
+// 	if (0 < (fd = open("./test.txt", O_RDONLY)))
+// 	{
+// 		while ((answer = get_next_line(fd)) != 0)
+// 		{
+// 			printf("return : %s", answer);
+// 		}
+// 		close(fd);
+// 	}
+// 	else
+// 	{
+// 		printf("파일 읽기 실패");
+// 	}
+// 	// while(1)
+// 	// {
+		
+// 	// }
+// 	return 0;
+// }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/08 20:40:59 by jgwon             #+#    #+#             */
+/*   Updated: 2022/07/08 22:46:10 by jgwon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
@@ -54,7 +65,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		total_size;
 	char	*arr;
@@ -71,6 +82,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	ft_memcpy(arr, s1, ft_strlen(s1));
 	ft_memcpy(arr + ft_strlen(s1), s2, ft_strlen(s2) + 1);
+	free(s1);
 	return (arr);
 }
 
