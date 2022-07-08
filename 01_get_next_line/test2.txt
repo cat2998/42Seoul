@@ -1,0 +1,11 @@
+ABCDEF
+ABCD
+AB
+A
+AB
+ABC
+
+ABCDE
+
+jihyun
+end
