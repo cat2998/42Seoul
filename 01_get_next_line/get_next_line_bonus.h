@@ -6,9 +6,6 @@
 # include <stdlib.h>
 # include <limits.h>
 
-//임시
-#include <stdio.h>
-
 size_t  ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
