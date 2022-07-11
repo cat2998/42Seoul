@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:28:21 by jgwon             #+#    #+#             */
-/*   Updated: 2022/07/08 22:43:32 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:03:56 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_get_line(char *sum, int n)
 	if(!result)
 		return (0);
 	i = 0;
-	while (i < n + 1)
+	while (sum[i] != '\0' && i < n + 1)
 	{
 		result[i] = sum[i];
 		i++;
@@ -96,6 +96,8 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*sum;
 
+	if (fd < 0)
+		return (0);
 	sum = ft_read_to_newline(fd, sum);
 	if (!sum)
 		return (0);
@@ -104,7 +106,7 @@ char	*get_next_line(int fd)
 	sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
 	return (line);
 }
-//
+
 // #include <fcntl.h>
 // #include <stdio.h>
 // int main(void)
@@ -125,7 +127,7 @@ char	*get_next_line(int fd)
 // 	}
 // 	// while(1)
 // 	// {
-//
+
 // 	// }
 // 	return 0;
 // }

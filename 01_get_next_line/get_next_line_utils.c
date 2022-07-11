@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:35:59 by jgwon             #+#    #+#             */
-/*   Updated: 2022/07/08 22:43:21 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/11 20:54:52 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,6 @@ size_t	ft_strlen(const char *s)
 	}
 	return (count);
 }
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	int		i;
-// 	int		size;
-// 	char	*copy;
-
-// 	size = ft_strlen(s1);
-// 	copy = (char *)malloc(sizeof(char) * (size + 1));
-// 	if (!copy)
-// 		return (0);
-// 	i = 0;
-// 	while (i < size + 1)
-// 	{
-// 		copy[i] = s1[i];
-// 		i++;
-// 	}
-// 	return (copy);
-// }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -89,7 +70,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 int	ft_strchr(char *s, int c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
     if (!s)

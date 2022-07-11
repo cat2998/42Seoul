@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:40:33 by jgwon             #+#    #+#             */
-/*   Updated: 2022/07/08 21:44:13 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:02:13 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*ft_get_line(char *sum, int n)
 	int		i;
 	char	*result;
 
+	if (sum[0] == '\0')
+		return (0);
 	result = (char *)malloc(sizeof(char) * (n + 2));
 	if(!result)
 		return (0);
@@ -64,22 +66,27 @@ char	*ft_get_line(char *sum, int n)
 	return (result);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *sum, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*str;
 
+	if (len == 0)
+	{
+		free(sum);
+		return (0);
+	}
 	str = (char *)malloc(sizeof(char) * len);
 	if (!str)
 		return (0);
 	i = 0;
-	while (s[start + i] != '\0' && i < len)
+	while (sum[start + i] != '\0' && i < len)
 	{
-		str[i] = s[start + i];
+		str[i] = sum[start + i];
 		i++;
 	}
 	str[i] = '\0';
-	free(s);
+	free(sum);
 	return (str);
 }
 
@@ -89,17 +96,14 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*sum[OPEN_MAX];
 
-	sum[fd] = ft_read_to_newline(fd, sum[fd]);
-	if (!sum[fd] || sum[fd][0] == '\0')
-	{
-		free(sum[fd]);
+	if (fd < 0 || fd > OPEN_MAX)
 		return (0);
-	}
+	sum[fd] = ft_read_to_newline(fd, sum[fd]);
+	if (!sum[fd])
+		return (0);
 	i = ft_find_newline(sum[fd]);
 	line = ft_get_line(sum[fd], i);
 	sum[fd] = ft_substr(sum[fd], i + 1, ft_strlen(sum[fd]) - i);
-	if (!line && !sum[fd])
-		return (0);
 	return (line);
 }
 
