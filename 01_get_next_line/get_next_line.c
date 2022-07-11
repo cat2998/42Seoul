@@ -103,27 +103,27 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <fcntl.h>
-// #include <stdio.h>
-// int main(void)
-// {
-// 	int	fd;
-// 	char *answer;
-// 	if (0 < (fd = open("./test.txt", O_RDONLY)))
-// 	{
-// 		while ((answer = get_next_line(fd)) != 0)
-// 		{
-// 			printf("return : %s", answer);
-// 		}
-// 		close(fd);
-// 	}
-// 	else
-// 	{
-// 		printf("파일 읽기 실패");
-// 	}
-// 	// while(1)
-// 	// {
+#include <fcntl.h>
+#include <stdio.h>
+int main(void)
+{
+	int	fd;
+	char *answer;
+	if (0 < (fd = open("./test.txt", O_RDONLY)))
+	{
+		while ((answer = get_next_line(fd)) != 0)
+		{
+			printf("return : %s", answer);
+		}
+		close(fd);
+	}
+	else
+	{
+		printf("파일 읽기 실패");
+	}
+	// while(1)
+	// {
 		
-// 	// }
-// 	return 0;
-// }
+	// }
+	return 0;
+}
