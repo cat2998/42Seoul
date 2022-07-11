@@ -27,24 +27,24 @@ size_t	ft_strlen(const char *s)
 	return (count);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	int		size;
-	char	*copy;
+// char	*ft_strdup(const char *s1)
+// {
+// 	int		i;
+// 	int		size;
+// 	char	*copy;
 
-	size = ft_strlen(s1);
-	copy = (char *)malloc(sizeof(char) * (size + 1));
-	if (!copy)
-		return (0);
-	i = 0;
-	while (i < size + 1)
-	{
-		copy[i] = s1[i];
-		i++;
-	}
-	return (copy);
-}
+// 	size = ft_strlen(s1);
+// 	copy = (char *)malloc(sizeof(char) * (size + 1));
+// 	if (!copy)
+// 		return (0);
+// 	i = 0;
+// 	while (i < size + 1)
+// 	{
+// 		copy[i] = s1[i];
+// 		i++;
+// 	}
+// 	return (copy);
+// }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -70,12 +70,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		total_size;
 	char	*arr;
 
-	if (!s1 && !s2)
-		return (0);
 	if (!s1)
-		return (ft_strdup(s2));
-	else if (!s2)
-		return (ft_strdup(s1));
+	{
+		s1 = (char *)malloc(sizeof(char) * 1);
+		if (!s1)
+			return (0);
+		s1[0] = '\0';
+	}
 	total_size = ft_strlen(s1) + ft_strlen(s2);
 	arr = (char *)malloc(sizeof(char) * (total_size + 1));
 	if (!arr)

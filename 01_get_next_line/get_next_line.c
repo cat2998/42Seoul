@@ -51,6 +51,8 @@ char	*ft_get_line(char *sum, int n)
 	int		i;
 	char	*result;
 
+	if (sum[0] == '\0')
+		return (0);
 	result = (char *)malloc(sizeof(char) * (n + 2));
 	if(!result)
 		return (0);
@@ -64,7 +66,7 @@ char	*ft_get_line(char *sum, int n)
 	return (result);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *sum, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*str;
@@ -73,13 +75,13 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (!str)
 		return (0);
 	i = 0;
-	while (s[start + i] != '\0' && i < len)
+	while (sum[start + i] != '\0' && i < len)
 	{
-		str[i] = s[start + i];
+		str[i] = sum[start + i];
 		i++;
 	}
 	str[i] = '\0';
-	free(s);
+	free(sum);
 	return (str);
 }
 
@@ -90,40 +92,35 @@ char	*get_next_line(int fd)
 	static char	*sum;
 
 	sum = ft_read_to_newline(fd, sum);
-	if (!sum || sum[0] == '\0')
-	{
-		free(sum);
+	if (!sum)
 		return (0);
-	}
 	i = ft_find_newline(sum);
 	line = ft_get_line(sum, i);
 	sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
-	if (!line || !sum)
-		return (0);
 	return (line);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-int main(void)
-{
-	int	fd;
-	char *answer;
-	if (0 < (fd = open("./test.txt", O_RDONLY)))
-	{
-		while ((answer = get_next_line(fd)) != 0)
-		{
-			printf("return : %s", answer);
-		}
-		close(fd);
-	}
-	else
-	{
-		printf("파일 읽기 실패");
-	}
-	// while(1)
-	// {
+// #include <fcntl.h>
+// #include <stdio.h>
+// int main(void)
+// {
+// 	int	fd;
+// 	char *answer;
+// 	if (0 < (fd = open("./test.txt", O_RDONLY)))
+// 	{
+// 		while ((answer = get_next_line(fd)) != 0)
+// 		{
+// 			printf("return : %s", answer);
+// 		}
+// 		close(fd);
+// 	}
+// 	else
+// 	{
+// 		printf("파일 읽기 실패");
+// 	}
+// 	// while(1)
+// 	// {
 		
-	// }
-	return 0;
-}
+// 	// }
+// 	return 0;
+// }
