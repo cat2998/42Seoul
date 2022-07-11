@@ -57,7 +57,7 @@ char	*ft_get_line(char *sum, int n)
 	if(!result)
 		return (0);
 	i = 0;
-	while (sum[i] != '\0' && i < n + 1)
+	while (i < n + 1)
 	{
 		result[i] = sum[i];
 		i++;
@@ -71,6 +71,11 @@ char	*ft_substr(char *sum, unsigned int start, size_t len)
 	size_t	i;
 	char	*str;
 
+	if (len == 0)
+	{
+		free(sum);
+		return (0);
+	}
 	str = (char *)malloc(sizeof(char) * len);
 	if (!str)
 		return (0);
@@ -99,7 +104,7 @@ char	*get_next_line(int fd)
 	sum = ft_substr(sum, i + 1, ft_strlen(sum) - i);
 	return (line);
 }
-
+//
 // #include <fcntl.h>
 // #include <stdio.h>
 // int main(void)
@@ -120,7 +125,7 @@ char	*get_next_line(int fd)
 // 	}
 // 	// while(1)
 // 	// {
-		
+//
 // 	// }
 // 	return 0;
 // }
