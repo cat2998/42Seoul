@@ -87,18 +87,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (arr);
 }
 
-int	ft_strchr(const char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	int		i;
-	char	*temp;
 
 	i = 0;
     if (!s)
 		return (-1);
-	temp = (char *)s;
-	while (temp[i] != '\0')
+	while (s[i] != '\0')
 	{
-		if (temp[i] == (char)c)
+		if (s[i] == (char)c)
 			return (i);
 		i++;
 	}
