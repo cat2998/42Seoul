@@ -1,4 +1,4 @@
-SRCS	= ft_isalpha.c \
+SRCS	= ft_.c \
 
 
 OBJS	= $(SRCS:.c=.o)
