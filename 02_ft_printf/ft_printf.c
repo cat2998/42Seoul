@@ -9,7 +9,7 @@ typedef struct s_info
 	int	zero;
 	int	sharp;
 	int	width;
-	int prec;
+	int precision;
 	char	type;
 }	t_info;
 
