@@ -31,6 +31,6 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	printf("%d%d%d\n", 10, 20, 30);
-	ft_printf("%d%d%d\n", 10, 20, 30);
+	printf("%d%d%d\n", 10, 20, 30, 40);
+	ft_printf("%d%d%d\n", 10, 20, 30, 40);
 }
