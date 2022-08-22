@@ -6,11 +6,12 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/21 19:25:03 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/22 23:45:53 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
 typedef struct s_info
@@ -21,33 +22,70 @@ typedef struct s_info
 	int	zero;
 	int	sharp;
 	int	width;
-	int precision;
-	int pn;
+	int prec;
+	int prec_n;
 	char	type;
 }	t_info;
 
-const char *ft_info(const char *format, va_list ap)
+void	init_info(t_info *info)
 {
-	while (*format != 'd')
+	info->minus = 0;
+	info->plus = 0;
+	info->space = 0;
+	info->zero = 0;
+	info->sharp = 0;
+	info->width = 0;
+	info->prec = 0;
+	info->prec_n = 0;
+}
+
+const char *ft_info(const char *format, t_info *info)
+{
+	while (*format != 'c' && *format != 's' && *format != 'p' && *format != 'd' \
+		&& *format != 'i' && *format != 'u' && *format != 'x' && *format != 'X' && *format != '%')
 	{
-		// ft_checkflag(format);
-		printf("%c", *format);
+		if (*format == '-')
+			info->minus = 1;
+		else if (*format == '+')
+			info->plus = 1;
+		else if (*format == ' ')
+			info->space = 1;
+		else if (*format == '0' && info->width == 0 && info->prec == 0)
+			info->zero = 1;
+		else if (*format == '#')
+			info->sharp = 1;
+		else if (*format == '.')
+			info->prec = 1;
+		else
+		{
+			if (info->prec == 1 && info->prec_n == 0 && *format == '0')
+				info->prec = -1;
+			else if (info->prec == 1)
+				info->prec_n = info->prec_n * 10 + *format;
+			else
+				info->width = info->width * 10 + *format;
+		}
 		format++;
 	}
+	info->type = *format;
 	return format;
 }
 
-int	ft_myprintf(va_list ap, const char *format)
+int	ft_format_printf(va_list ap, const char *format)
 {
 	// int	a;
-	// char	*p;
+	t_info	*info;
 
+	info = malloc(sizeof(t_info) * 1);
+	if (!info)
+		return (0);
 	while (*format != 0)
 	{
 		if (*format == '%')
 		{
 			format++;
-			format = ft_info(format, ap);
+			init_info(info);
+			format = ft_info(format, info);
 		}
 		else
 		{
@@ -69,7 +107,7 @@ int	ft_printf(const char *format, ...)
 	va_list	ap;
 
 	va_start(ap, format);
-	ft_myprintf(ap, format);
+	ft_format_printf(ap, format);
 	va_end(ap);
 
 	return 0;
@@ -77,5 +115,5 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("Hello%dWorld%d!!!%d", 10, 20, 30);
+	ft_printf("Hello%+100dWorld%d!!!%d", 10, 20, 30);
 }
