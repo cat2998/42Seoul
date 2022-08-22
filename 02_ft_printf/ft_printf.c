@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/22 23:45:53 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/23 00:42:57 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,43 +39,124 @@ void	init_info(t_info *info)
 	info->prec_n = 0;
 }
 
+void	ft_check_flag(const char *format, t_info *info)
+{
+	if (*format == '-')
+		info->minus = 1;
+	else if (*format == '+')
+		info->plus = 1;
+	else if (*format == ' ')
+		info->space = 1;
+	else if (*format == '0' && info->width == 0 && info->prec == 0)
+		info->zero = 1;
+	else if (*format == '#')
+		info->sharp = 1;
+	else if (*format == '.')
+		info->prec = 1;
+	else
+	{
+		if (info->prec == 1 && info->prec_n == 0 && *format == '0')
+			info->prec = -1;
+		else if (info->prec == 1)
+			info->prec_n = info->prec_n * 10 + (*format - 48);
+		else
+			info->width = info->width * 10 + (*format - 48);
+	}
+}
+
 const char *ft_info(const char *format, t_info *info)
 {
-	while (*format != 'c' && *format != 's' && *format != 'p' && *format != 'd' \
-		&& *format != 'i' && *format != 'u' && *format != 'x' && *format != 'X' && *format != '%')
+	while (*format != 'c' && *format != 's' && *format != 'p' \
+		&& *format != 'd' && *format != 'i' && *format != 'u' \
+		&& *format != 'x' && *format != 'X' && *format != '%')
 	{
-		if (*format == '-')
-			info->minus = 1;
-		else if (*format == '+')
-			info->plus = 1;
-		else if (*format == ' ')
-			info->space = 1;
-		else if (*format == '0' && info->width == 0 && info->prec == 0)
-			info->zero = 1;
-		else if (*format == '#')
-			info->sharp = 1;
-		else if (*format == '.')
-			info->prec = 1;
-		else
-		{
-			if (info->prec == 1 && info->prec_n == 0 && *format == '0')
-				info->prec = -1;
-			else if (info->prec == 1)
-				info->prec_n = info->prec_n * 10 + *format;
-			else
-				info->width = info->width * 10 + *format;
-		}
+		ft_check_flag(format, info);
 		format++;
 	}
 	info->type = *format;
 	return format;
 }
 
+int	ft_print_char(va_list ap, t_info *info)
+{
+	char c;
+
+	c = (char)va_arg(ap, int);
+	
+}
+
+int	ft_print_string(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_pointer(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_int(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_int2(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_unsigned_int(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_x(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_X(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_print_percent(va_list ap, t_info *info)
+{
+	
+}
+
+int	ft_format_info_print(va_list ap, t_info *info)
+{
+	int cnt;
+
+	cnt = 0;
+	if (info->type == 'c')
+		cnt += ft_print_char(ap, info);
+	else if (info->type == 's')
+		cnt += ft_print_string(ap, info);
+	else if (info->type == 'p')
+		cnt += ft_print_pointer(ap, info);
+	else if (info->type == 'd')
+		cnt += ft_print_int(ap, info);
+	else if (info->type == 'i')
+		cnt += ft_print_int2(ap, info);
+	else if (info->type == 'u')
+		cnt += ft_print_unsigned_int(ap, info);
+	else if (info->type == 'x')
+		cnt += ft_print_x(ap, info);
+	else if (info->type == 'X')
+		cnt += ft_print_X(ap, info);
+	else if (info->type == '%')
+		cnt += ft_print_percent(ap, info);
+	return cnt;
+}
+
 int	ft_format_printf(va_list ap, const char *format)
 {
-	// int	a;
+	int		cnt;
 	t_info	*info;
 
+	cnt = 0;
 	info = malloc(sizeof(t_info) * 1);
 	if (!info)
 		return (0);
@@ -86,6 +167,7 @@ int	ft_format_printf(va_list ap, const char *format)
 			format++;
 			init_info(info);
 			format = ft_info(format, info);
+			cnt += ft_format_info_print(ap, info);
 		}
 		else
 		{
@@ -93,12 +175,6 @@ int	ft_format_printf(va_list ap, const char *format)
 		}
 		format++;
 	}
-
-	// for (int i = 0; i < 3; i++)
-	// {
-	// 	a = va_arg(ap, int);
-	// 	printf("%d\n", a);
-	// }
 	return 0;
 }
 
@@ -115,5 +191,5 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("Hello%+100dWorld%d!!!%d", 10, 20, 30);
+	ft_printf("Hello%+100.3dWorld%-040.c!!!% #.0x", 10, 20, 30);
 }
