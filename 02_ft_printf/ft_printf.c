@@ -6,13 +6,14 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/23 00:42:57 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/23 23:48:11 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 typedef struct s_info
 {
@@ -77,55 +78,71 @@ const char *ft_info(const char *format, t_info *info)
 	return format;
 }
 
-int	ft_print_char(va_list ap, t_info *info)
+int	ft_print_char(va_list *ap, t_info *info)
 {
 	char c;
 
-	c = (char)va_arg(ap, int);
-	
+	c = (char)va_arg(*ap, int);
+	printf("(c:%c)", c);
+	if (info->prec == -1 && c == 0)
+	{
+		printf("1");
+		return (0);
+	}
+	else if (info->minus == 1)
+	{
+		printf("2");
+		write(1, "a", 1);
+		return (1);
+	}
+	else
+	{
+		
+	}
+	return (0);
 }
 
-int	ft_print_string(va_list ap, t_info *info)
+int	ft_print_string(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_pointer(va_list ap, t_info *info)
+int	ft_print_pointer(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_int(va_list ap, t_info *info)
+int	ft_print_int(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_int2(va_list ap, t_info *info)
+int	ft_print_int2(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_unsigned_int(va_list ap, t_info *info)
+int	ft_print_unsigned_int(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_x(va_list ap, t_info *info)
+int	ft_print_x(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_X(va_list ap, t_info *info)
+int	ft_print_X(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_print_percent(va_list ap, t_info *info)
+int	ft_print_percent(va_list *ap, t_info *info)
 {
-	
+	return (0);
 }
 
-int	ft_format_info_print(va_list ap, t_info *info)
+int	ft_format_info_print(va_list *ap, t_info *info)
 {
 	int cnt;
 
@@ -148,7 +165,7 @@ int	ft_format_info_print(va_list ap, t_info *info)
 		cnt += ft_print_X(ap, info);
 	else if (info->type == '%')
 		cnt += ft_print_percent(ap, info);
-	return cnt;
+	return (cnt);
 }
 
 int	ft_format_printf(va_list ap, const char *format)
@@ -167,7 +184,7 @@ int	ft_format_printf(va_list ap, const char *format)
 			format++;
 			init_info(info);
 			format = ft_info(format, info);
-			cnt += ft_format_info_print(ap, info);
+			cnt += ft_format_info_print(&ap, info);
 		}
 		else
 		{
@@ -175,21 +192,23 @@ int	ft_format_printf(va_list ap, const char *format)
 		}
 		format++;
 	}
-	return 0;
+	return (cnt);
 }
 
 int	ft_printf(const char *format, ...)
 {
+	int		cnt;
 	va_list	ap;
 
 	va_start(ap, format);
-	ft_format_printf(ap, format);
+	cnt = ft_format_printf(ap, format);
 	va_end(ap);
 
-	return 0;
+	return (cnt);
 }
 
 int main(void)
 {
-	ft_printf("Hello%+100.3dWorld%-040.c!!!% #.0x", 10, 20, 30);
+	ft_printf("%-04c|%.0c|\n", 'b', 0);
+	ft_printf("%.0c|%-04c|\n", 0, 'b');
 }
