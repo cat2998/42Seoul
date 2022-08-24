@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/23 23:48:11 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/24 22:44:46 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,47 @@ int	ft_print_char(va_list *ap, t_info *info)
 	char c;
 
 	c = (char)va_arg(*ap, int);
-	// printf("(c:%c)", c);
 	if (info->prec == -1 && c == 0)
 	{
-		// printf("1");
+		write(1, "None", 4);
 		return (0);
 	}
 	else if (info->minus == 1)
 	{
-		// printf("2");
 		write(1, &c, 1);
+		info->width--;
+		while (info->width > 0)
+		{
+			write(1, " ", 1);
+			info->width--;
+		}
 		return (1);
+	}
+	else if (info->zero == 1)
+	{
+		while (info->width > 0)
+		{
+			if (info->width == 1)
+			{
+				write(1, &c, 1);
+				return (1);
+			}
+			write(1, "0", 1);
+			info->width--;
+		}
 	}
 	else
 	{
-		
+		while (info->width > 0)
+		{
+			if (info->width == 1)
+			{
+				write(1, &c, 1);
+				return (1);
+			}
+			write(1, " ", 1);
+			info->width--;
+		}
 	}
 	return (0);
 }
@@ -139,6 +165,43 @@ int	ft_print_X(va_list *ap, t_info *info)
 
 int	ft_print_percent(va_list *ap, t_info *info)
 {
+	if (info->minus == 1)
+	{
+		write(1, "%", 1);
+		info->width--;
+		while (info->width > 0)
+		{
+			write(1, " ", 1);
+			info->width--;
+		}
+		return (1);
+	}
+	else if (info->zero == 1)
+	{
+		while (info->width > 0)
+		{
+			if (info->width == 1)
+			{
+				write(1, "%", 1);
+				return (1);
+			}
+			write(1, "0", 1);
+			info->width--;
+		}
+	}
+	else
+	{
+		while (info->width > 0)
+		{
+			if (info->width == 1)
+			{
+				write(1, "%", 1);
+				return (1);
+			}
+			write(1, " ", 1);
+			info->width--;
+		}
+	}
 	return (0);
 }
 
@@ -188,7 +251,8 @@ int	ft_format_printf(va_list ap, const char *format)
 		}
 		else
 		{
-			printf("%c", *format);
+			write(1, format, 1);
+			// printf("%c", *format);
 		}
 		format++;
 	}
@@ -209,6 +273,6 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("%-04c|%.0c|\n", 'b', 0);
-	ft_printf("%.0c|%-04c|\n", 0, 'b');
+	ft_printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0);
+	ft_printf("%-04.0%|%04.%|%4%|%%|%.0%|\n");
 }
