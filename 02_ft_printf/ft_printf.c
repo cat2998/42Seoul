@@ -83,16 +83,16 @@ int	ft_print_char(va_list *ap, t_info *info)
 	char c;
 
 	c = (char)va_arg(*ap, int);
-	printf("(c:%c)", c);
+	// printf("(c:%c)", c);
 	if (info->prec == -1 && c == 0)
 	{
-		printf("1");
+		// printf("1");
 		return (0);
 	}
 	else if (info->minus == 1)
 	{
-		printf("2");
-		write(1, "a", 1);
+		// printf("2");
+		write(1, &c, 1);
 		return (1);
 	}
 	else
