@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/24 22:44:46 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/25 23:55:40 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ const char *ft_info(const char *format, t_info *info)
 	return format;
 }
 
-int	print_none(t_info *info, char c)
+int	ft_print_none(t_info *info, char c)
 {
 	if (info->prec == -1 && c == 0)
 	{
@@ -88,26 +88,29 @@ int	print_none(t_info *info, char c)
 	return (0);
 }
 
-int	ft_print_char(va_list *ap, t_info *info)
+void	ft_putchar(char c, int *cnt, t_info *info)
+{
+	write(1, &c, 1);
+	*cnt += 1;
+	info->width--;
+
+	return ;
+}
+
+int	ft_print_c(va_list *ap, t_info *info)
 {
 	int	cnt;
 	char c;
 
 	cnt = 0;
 	c = (char)va_arg(*ap, int);
-	if (print_none(info, c))
+	if (ft_print_none(info, c))
 		return (1);
 	else if (info->minus == 1)
 	{
-		write(1, &c, 1);
-		cnt++;
-		info->width--;
+		ft_putchar(c, &cnt, info);
 		while (info->width > 0)
-		{
-			write(1, " ", 1);
-			cnt++;
-			info->width--;
-		}
+			ft_putchar(' ', &cnt, info);
 		return (cnt);
 	}
 	else if (info->zero == 1)
@@ -116,13 +119,10 @@ int	ft_print_char(va_list *ap, t_info *info)
 		{
 			if (info->width <= 1)
 			{
-				write(1, &c, 1);
-				cnt++;
+				ft_putchar(c, &cnt, info);
 				return (cnt);
 			}
-			write(1, "0", 1);
-			cnt++;
-			info->width--;
+			ft_putchar('0', &cnt, info);
 		}
 	}
 	else
@@ -131,39 +131,176 @@ int	ft_print_char(va_list *ap, t_info *info)
 		{
 			if (info->width <= 1)
 			{
-				write(1, &c, 1);
-				cnt++;
+				ft_putchar(c, &cnt, info);
 				return (cnt);
 			}
-			write(1, " ", 1);
-			cnt++;
-			info->width--;
+			ft_putchar(' ', &cnt, info);
 		}
 	}
 	return (cnt);
 }
 
-int	ft_print_string(va_list *ap, t_info *info)
+int	ft_print_s(va_list *ap, t_info *info)
 {
 	return (0);
 }
 
-int	ft_print_pointer(va_list *ap, t_info *info)
+int	ft_print_p(va_list *ap, t_info *info)
 {
 	return (0);
 }
 
-int	ft_print_int(va_list *ap, t_info *info)
+int	ft_len(int c)
+{
+	int n;
+
+	if (c == 0)
+		return (1);
+	n = 0;
+	while (c != 0)
+	{
+		c = c / 10;
+		n++;
+	}
+	return (n);
+}
+
+void	ft_putnbr(int n, int *cnt, t_info *info)
+{
+	char	str;
+
+	if (n == -2147483648)
+	{
+		ft_putnbr(n / 10, cnt, info);
+		ft_putchar('8', &cnt, info);
+		return ;
+	}
+	else if (n < 0)
+	{
+		ft_putchar('-', &cnt, info);
+		n *= -1;
+	}
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10, cnt, info);
+		str = n % 10 + 48;
+	}
+	else
+		str = n + 48;
+	ft_putchar(str, &cnt, info);
+}
+
+int	ft_print_d(va_list *ap, t_info *info)
+{
+	int	cnt;
+	int c;
+	int len;
+
+	cnt = 0;
+	c = va_arg(*ap, int);
+	len = ft_len(c);
+	if (ft_print_none(info, (char)c))
+		return (1);
+	// if (info->plus == 1)
+	// 	ft_putchar('+', &cnt, info);
+	// else if (info->space == 1)
+	// 	ft_putchar(' ', &cnt, info);
+	if (info->prec_n > len)
+	{
+		if (info->minus == 1)
+		{
+			if (info->plus == 1)
+				ft_putchar('+', &cnt, info);
+			else if (info->space == 1)
+				ft_putchar(' ', &cnt, info);
+			info->prec_n = info->prec_n - len;
+			while (info->prec_n > 0)
+			{
+				ft_putchar('0', &cnt, info);
+				info->prec_n--;
+			}
+			ft_putnbr(c, &cnt, info);
+			while (info->width > 0)
+				ft_putchar(' ', &cnt, info);
+		}
+		else
+		{
+			info->width = info->width - info->prec_n;
+			while (info->width > 0)
+			{
+				if (info->plus == 1 && info->width == 1)
+				{
+					ft_putchar('+', &cnt, info);
+					continue;
+				}
+				else if (info->space == 1 && info->width == 1)
+				{
+					ft_putchar(' ', &cnt, info);
+					continue;
+				}
+				ft_putchar(' ', &cnt, info);
+			}
+			info->prec_n = info->prec_n - len;
+			while (info->prec_n > 0)
+			{
+				ft_putchar('0', &cnt, info);
+				info->prec_n--;
+			}
+			ft_putnbr(c, &cnt, info);
+		}
+	}
+	else
+	{
+		if (info->minus == 1)
+		{
+			if (info->plus == 1)
+				ft_putchar('+', &cnt, info);
+			else if (info->space == 1)
+				ft_putchar(' ', &cnt, info);
+			ft_putnbr(c, &cnt, info);
+			while (info->width > 0)
+				ft_putchar(' ', &cnt, info);
+		}
+		else if (info->zero == 1)
+		{
+			if (info->plus == 1)
+				ft_putchar('+', &cnt, info);
+			else if (info->space == 1)
+				ft_putchar(' ', &cnt, info);
+			info->width = info->width - len;
+			while (info->width > 0)
+				ft_putchar('0', &cnt, info);
+			ft_putnbr(c, &cnt, info);
+		}
+		else
+		{
+			info->width = info->width - len;
+			while (info->width > 0)
+			{
+				if (info->plus == 1 && info->width == 1)
+				{
+					ft_putchar('+', &cnt, info);
+					continue;
+				}
+				else if (info->space == 1 && info->width == 1)
+				{
+					ft_putchar(' ', &cnt, info);
+					continue;
+				}
+				ft_putchar(' ', &cnt, info);
+			}
+			ft_putnbr(c, &cnt, info);
+		}
+	}
+	return (cnt);
+}
+
+int	ft_print_i(va_list *ap, t_info *info)
 {
 	return (0);
 }
 
-int	ft_print_int2(va_list *ap, t_info *info)
-{
-	return (0);
-}
-
-int	ft_print_unsigned_int(va_list *ap, t_info *info)
+int	ft_print_u(va_list *ap, t_info *info)
 {
 	return (0);
 }
@@ -185,15 +322,9 @@ int	ft_print_percent(va_list *ap, t_info *info)
 	cnt = 0;
 	if (info->minus == 1)
 	{
-		write(1, "%", 1);
-		cnt++;
-		info->width--;
+		ft_putchar('%', &cnt, info);
 		while (info->width > 0)
-		{
-			write(1, " ", 1);
-			cnt++;
-			info->width--;
-		}
+			ft_putchar(' ', &cnt, info);
 		return (cnt);
 	}
 	else if (info->zero == 1)
@@ -202,13 +333,10 @@ int	ft_print_percent(va_list *ap, t_info *info)
 		{
 			if (info->width <= 1)
 			{
-				write(1, "%", 1);
-				cnt++;
+				ft_putchar('%', &cnt, info);
 				return (cnt);
 			}
-			write(1, "0", 1);
-			cnt++;
-			info->width--;
+			ft_putchar('0', &cnt, info);
 		}
 	}
 	else
@@ -217,13 +345,10 @@ int	ft_print_percent(va_list *ap, t_info *info)
 		{
 			if (info->width <= 1)
 			{
-				write(1, "%", 1);
-				cnt++;
+				ft_putchar('%', &cnt, info);
 				return (cnt);
 			}
-			write(1, " ", 1);
-			cnt++;
-			info->width--;
+			ft_putchar(' ', &cnt, info);
 		}
 	}
 	return (cnt);
@@ -234,17 +359,17 @@ int	ft_format_info_print(va_list *ap, t_info *info)
 	int cnt;
 
 	if (info->type == 'c')
-		cnt = ft_print_char(ap, info);
+		cnt = ft_print_c(ap, info);
 	else if (info->type == 's')
-		cnt = ft_print_string(ap, info);
+		cnt = ft_print_s(ap, info);
 	else if (info->type == 'p')
-		cnt = ft_print_pointer(ap, info);
+		cnt = ft_print_p(ap, info);
 	else if (info->type == 'd')
-		cnt = ft_print_int(ap, info);
+		cnt = ft_print_d(ap, info);
 	else if (info->type == 'i')
-		cnt = ft_print_int2(ap, info);
+		cnt = ft_print_i(ap, info);
 	else if (info->type == 'u')
-		cnt = ft_print_unsigned_int(ap, info);
+		cnt = ft_print_u(ap, info);
 	else if (info->type == 'x')
 		cnt = ft_print_x(ap, info);
 	else if (info->type == 'X')
@@ -296,8 +421,50 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	printf("printf return %d\n", printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
-	printf("ft_printf return %d\n", ft_printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
-	printf("printf return %d\n", printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
-	printf("ft_printf return %d\n", ft_printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
+	// printf("printf return %d\n", printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
+	// printf("ft_printf return %d\n", ft_printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
+	// printf("printf return %d\n", printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
+	// printf("ft_printf return %d\n", ft_printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
+	printf("printf return %d\n", printf("%d|%4d|%+4d|%+- 4d|% 04d|%- 04.0d|% 04.3d|%-2.4d|%+6.4d|%.0d|\n", 10, 10, 10, 10, 10, 10, 10, 10, 10, 0));
+	printf("ft_printf return %d\n", ft_printf("%d|%4d|%+4d|%+- 4d|% 04d|%- 04.0d|% 04.3d|%-2.4d|%+6.4d|%.0d|\n", 10, 10, 10, 10, 10, 10, 10, 10, 10, 0));
+
+ 	// int a = 1;
+	// int* p;
+	// p = &a;
+	// printf("return: %d\n", printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.-n'\n%6.-5c|%6.-5s|%12.-5p|%+6.-5d|%+6.-5i|%+6.-5u|%#6.-5x|%#6.-5X|%6.-5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.-n'\n%6.-5c|%6.-5s|%12.-5p|%+6.-5d|%+6.-5i|%+6.-5u|%#6.-5x|%#6.-5X|%6.-5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.n'\n%06.1c|%06.1s|%012.1p|%+06.1d|%+06.1i|%+06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.n'\n%06.1c|%06.1s|%012.1p|%+06.1d|%+06.1i|%+06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.n'\n%06.5c|%06.5s|%012.5p|%+06.5d|%+06.5i|%+06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.n'\n%06.5c|%06.5s|%012.5p|%+06.5d|%+06.5i|%+06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.0 0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
+	// ft_printf("return: %d\n", ft_printf("'w.0 0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
 }
