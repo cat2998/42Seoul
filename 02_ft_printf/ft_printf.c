@@ -78,54 +78,69 @@ const char *ft_info(const char *format, t_info *info)
 	return format;
 }
 
-int	ft_print_char(va_list *ap, t_info *info)
+int	print_none(t_info *info, char c)
 {
-	char c;
-
-	c = (char)va_arg(*ap, int);
 	if (info->prec == -1 && c == 0)
 	{
 		write(1, "None", 4);
-		return (0);
+		return (1);
 	}
+	return (0);
+}
+
+int	ft_print_char(va_list *ap, t_info *info)
+{
+	int	cnt;
+	char c;
+
+	cnt = 0;
+	c = (char)va_arg(*ap, int);
+	if (print_none(info, c))
+		return (1);
 	else if (info->minus == 1)
 	{
 		write(1, &c, 1);
+		cnt++;
 		info->width--;
 		while (info->width > 0)
 		{
 			write(1, " ", 1);
+			cnt++;
 			info->width--;
 		}
-		return (1);
+		return (cnt);
 	}
 	else if (info->zero == 1)
 	{
-		while (info->width > 0)
+		while (info->width >= 0)
 		{
-			if (info->width == 1)
+			if (info->width <= 1)
 			{
 				write(1, &c, 1);
-				return (1);
+				cnt++;
+				return (cnt);
 			}
 			write(1, "0", 1);
+			cnt++;
 			info->width--;
 		}
 	}
 	else
 	{
-		while (info->width > 0)
+		while (info->width >= 0)
 		{
-			if (info->width == 1)
+			if (info->width <= 1)
 			{
 				write(1, &c, 1);
-				return (1);
+				cnt++;
+				return (cnt);
 			}
 			write(1, " ", 1);
+			cnt++;
 			info->width--;
 		}
 	}
-	return (0);
+	return (cnt);
 }
 
 int	ft_print_string(va_list *ap, t_info *info)
@@ -165,69 +180,77 @@ int	ft_print_X(va_list *ap, t_info *info)
 
 int	ft_print_percent(va_list *ap, t_info *info)
 {
+	int	cnt;
+
+	cnt = 0;
 	if (info->minus == 1)
 	{
 		write(1, "%", 1);
+		cnt++;
 		info->width--;
 		while (info->width > 0)
 		{
 			write(1, " ", 1);
+			cnt++;
 			info->width--;
 		}
-		return (1);
+		return (cnt);
 	}
 	else if (info->zero == 1)
 	{
-		while (info->width > 0)
+		while (info->width >= 0)
 		{
-			if (info->width == 1)
+			if (info->width <= 1)
 			{
 				write(1, "%", 1);
-				return (1);
+				cnt++;
+				return (cnt);
 			}
 			write(1, "0", 1);
+			cnt++;
 			info->width--;
 		}
 	}
 	else
 	{
-		while (info->width > 0)
+		while (info->width >= 0)
 		{
-			if (info->width == 1)
+			if (info->width <= 1)
 			{
 				write(1, "%", 1);
-				return (1);
+				cnt++;
+				return (cnt);
 			}
 			write(1, " ", 1);
+			cnt++;
 			info->width--;
 		}
 	}
-	return (0);
+	return (cnt);
 }
 
 int	ft_format_info_print(va_list *ap, t_info *info)
 {
 	int cnt;
 
-	cnt = 0;
 	if (info->type == 'c')
-		cnt += ft_print_char(ap, info);
+		cnt = ft_print_char(ap, info);
 	else if (info->type == 's')
-		cnt += ft_print_string(ap, info);
+		cnt = ft_print_string(ap, info);
 	else if (info->type == 'p')
-		cnt += ft_print_pointer(ap, info);
+		cnt = ft_print_pointer(ap, info);
 	else if (info->type == 'd')
-		cnt += ft_print_int(ap, info);
+		cnt = ft_print_int(ap, info);
 	else if (info->type == 'i')
-		cnt += ft_print_int2(ap, info);
+		cnt = ft_print_int2(ap, info);
 	else if (info->type == 'u')
-		cnt += ft_print_unsigned_int(ap, info);
+		cnt = ft_print_unsigned_int(ap, info);
 	else if (info->type == 'x')
-		cnt += ft_print_x(ap, info);
+		cnt = ft_print_x(ap, info);
 	else if (info->type == 'X')
-		cnt += ft_print_X(ap, info);
+		cnt = ft_print_X(ap, info);
 	else if (info->type == '%')
-		cnt += ft_print_percent(ap, info);
+		cnt = ft_print_percent(ap, info);
 	return (cnt);
 }
 
@@ -252,7 +275,7 @@ int	ft_format_printf(va_list ap, const char *format)
 		else
 		{
 			write(1, format, 1);
-			// printf("%c", *format);
+			cnt++;
 		}
 		format++;
 	}
@@ -273,6 +296,8 @@ int	ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0);
-	ft_printf("%-04.0%|%04.%|%4%|%%|%.0%|\n");
+	printf("printf return %d\n", printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
+	printf("ft_printf return %d\n", ft_printf("%-04.0c|%04.c|%4c|%c|%.0c|\n", 'a', 'a', 'a', 'a', 0));
+	printf("printf return %d\n", printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
+	printf("ft_printf return %d\n", ft_printf("%-04.0%|%04.%|%4%|%%|%.0%|\n"));
 }
