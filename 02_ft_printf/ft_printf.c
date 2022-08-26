@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/25 23:55:40 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/26 23:36:54 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_info
 	int	width;
 	int prec;
 	int prec_n;
+	int sign;
 	char	type;
 }	t_info;
 
@@ -38,6 +39,7 @@ void	init_info(t_info *info)
 	info->width = 0;
 	info->prec = 0;
 	info->prec_n = 0;
+	info->sign = 1;
 }
 
 void	ft_check_flag(const char *format, t_info *info)
@@ -63,6 +65,7 @@ void	ft_check_flag(const char *format, t_info *info)
 		else
 			info->width = info->width * 10 + (*format - 48);
 	}
+	return ;
 }
 
 const char *ft_info(const char *format, t_info *info)
@@ -75,7 +78,7 @@ const char *ft_info(const char *format, t_info *info)
 		format++;
 	}
 	info->type = *format;
-	return format;
+	return (format);
 }
 
 int	ft_print_none(t_info *info, char c)
@@ -97,46 +100,40 @@ void	ft_putchar(char c, int *cnt, t_info *info)
 	return ;
 }
 
-int	ft_print_c(va_list *ap, t_info *info)
+int	ft_print_c_percent_zerospace(t_info *info)
 {
 	int	cnt;
-	char c;
+
+	cnt = 1;
+	while (info->width > cnt)
+	{
+		if (info->zero == 1 && info->minus != 1)
+			write(1, "0", 1);
+		else
+			write(1, " ", 1);
+		cnt++;
+	}
+	return (cnt - 1);
+}
+
+int	ft_print_c_percent(char c, t_info *info)
+{
+	int	cnt;
 
 	cnt = 0;
-	c = (char)va_arg(*ap, int);
 	if (ft_print_none(info, c))
 		return (1);
-	else if (info->minus == 1)
+	if (info->minus == 1)
 	{
-		ft_putchar(c, &cnt, info);
-		while (info->width > 0)
-			ft_putchar(' ', &cnt, info);
-		return (cnt);
-	}
-	else if (info->zero == 1)
-	{
-		while (info->width >= 0)
-		{
-			if (info->width <= 1)
-			{
-				ft_putchar(c, &cnt, info);
-				return (cnt);
-			}
-			ft_putchar('0', &cnt, info);
-		}
+		write(1, &c, 1);
+		cnt += ft_print_c_percent_zerospace(info);
 	}
 	else
 	{
-		while (info->width >= 0)
-		{
-			if (info->width <= 1)
-			{
-				ft_putchar(c, &cnt, info);
-				return (cnt);
-			}
-			ft_putchar(' ', &cnt, info);
-		}
+		cnt += ft_print_c_percent_zerospace(info);
+		write(1, &c, 1);
 	}
+	cnt++;
 	return (cnt);
 }
 
@@ -201,10 +198,6 @@ int	ft_print_d(va_list *ap, t_info *info)
 	len = ft_len(c);
 	if (ft_print_none(info, (char)c))
 		return (1);
-	// if (info->plus == 1)
-	// 	ft_putchar('+', &cnt, info);
-	// else if (info->space == 1)
-	// 	ft_putchar(' ', &cnt, info);
 	if (info->prec_n > len)
 	{
 		if (info->minus == 1)
@@ -315,51 +308,14 @@ int	ft_print_X(va_list *ap, t_info *info)
 	return (0);
 }
 
-int	ft_print_percent(va_list *ap, t_info *info)
-{
-	int	cnt;
-
-	cnt = 0;
-	if (info->minus == 1)
-	{
-		ft_putchar('%', &cnt, info);
-		while (info->width > 0)
-			ft_putchar(' ', &cnt, info);
-		return (cnt);
-	}
-	else if (info->zero == 1)
-	{
-		while (info->width >= 0)
-		{
-			if (info->width <= 1)
-			{
-				ft_putchar('%', &cnt, info);
-				return (cnt);
-			}
-			ft_putchar('0', &cnt, info);
-		}
-	}
-	else
-	{
-		while (info->width >= 0)
-		{
-			if (info->width <= 1)
-			{
-				ft_putchar('%', &cnt, info);
-				return (cnt);
-			}
-			ft_putchar(' ', &cnt, info);
-		}
-	}
-	return (cnt);
-}
-
 int	ft_format_info_print(va_list *ap, t_info *info)
 {
 	int cnt;
 
 	if (info->type == 'c')
-		cnt = ft_print_c(ap, info);
+		cnt = ft_print_c_percent((char)va_arg(*ap, int), info);
+	else if (info->type == '%')
+		cnt = ft_print_c_percent('%', info);
 	else if (info->type == 's')
 		cnt = ft_print_s(ap, info);
 	else if (info->type == 'p')
@@ -374,8 +330,6 @@ int	ft_format_info_print(va_list *ap, t_info *info)
 		cnt = ft_print_x(ap, info);
 	else if (info->type == 'X')
 		cnt = ft_print_X(ap, info);
-	else if (info->type == '%')
-		cnt = ft_print_percent(ap, info);
 	return (cnt);
 }
 
@@ -404,6 +358,7 @@ int	ft_format_printf(va_list ap, const char *format)
 		}
 		format++;
 	}
+	free(info);
 	return (cnt);
 }
 
