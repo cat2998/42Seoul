@@ -414,32 +414,6 @@ int	ft_print_uxXp(unsigned long long d, t_info *info)
 	return (cnt);
 }
 
-int	ft_print_p(unsigned long long p, t_info *info)
-{
-	int	cnt;
-
-	cnt = 0;
-	base_check(info);
-	if (info->prec == -1 && p == 0)
-		return (ft_print_none(info));
-	if (info->minus == 1)
-	{
-		cnt += ft_print_sharp(info);
-		cnt += ft_print_diuxX_prec(p, info);
-		cnt += ft_putnbr(p, info);
-		cnt = ft_print_diuxX_width(cnt, p, info);
-	}
-	else
-	{
-		cnt = ft_print_diuxX_width(cnt, p, info);
-		cnt += ft_print_sharp(info);
-		cnt = ft_print_diuxX_zero(cnt, p, info);
-		cnt += ft_print_diuxX_prec(p, info);
-		cnt += ft_putnbr(p, info);
-	}
-	return (cnt);
-}
-
 int	ft_format_info_print(va_list *ap, t_info *info)
 {
 	int	cnt;
