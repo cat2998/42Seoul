@@ -1,5 +1,4 @@
-SRCS	= ft_.c \
-
+SRCS	= ft_printf.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -9,7 +8,7 @@ AR		= ar crs
 
 CFLAGS	= -Wall -Wextra -Werror
 
-NAME	= libft.a
+NAME	= libftprintf.a
 
 %.o:	%.c
 		$(CC) $(CFLAGS) -c $< -o $@

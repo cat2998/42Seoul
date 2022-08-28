@@ -6,29 +6,11 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 01:43:07 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/29 03:09:29 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <unistd.h>
-
-typedef struct s_info
-{
-	int	minus;
-	int	plus;
-	int	space;
-	int	zero;
-	int	sharp;
-	int	width;
-	int prec;
-	int prec_n;
-	int sign;
-	int	base;
-	char	type;
-}	t_info;
+#include "ft_printf.h"
 
 void	init_info(t_info *info)
 {
@@ -48,8 +30,6 @@ void	ft_info_check(const char *format, t_info *info)
 {
 	if (*format == '-' && info->prec == 0)
 		info->minus = 1;
-	else if (*format == '-' && info->prec == 1)
-		info->prec = 2;
 	else if (*format == '+')
 		info->plus = 1;
 	else if (*format == ' ')
@@ -64,7 +44,7 @@ void	ft_info_check(const char *format, t_info *info)
 	{
 		if (info->prec == 1 && info->prec_n == 0 && *format == '0')
 			info->prec = -1;
-		else if (info->prec > 0)
+		else if (info->prec == 1)
 			info->prec_n = info->prec_n * 10 + (*format - 48);
 		else
 			info->width = info->width * 10 + (*format - 48);
@@ -80,14 +60,6 @@ const char *ft_info(const char *format, t_info *info)
 	{
 		ft_info_check(format, info);
 		format++;
-	}
-	if (info->prec == 2)
-	{
-		info->minus = 1;
-		if (info->prec_n != 0)
-			info->width = info->prec_n;
-		info->prec = 1;
-		info->prec_n = 0;
 	}
 	info->type = *format;
 	return (format);
@@ -246,7 +218,7 @@ int	ft_putnbr(unsigned long long n, t_info *info)
 	char	str;
 
 	cnt = 0;
-	if (n >= info->base)
+	if (n >= (unsigned long long)info->base)
 	{
 		cnt += ft_putnbr(n / info->base, info);
 		str = n % info->base + 48;
@@ -529,8 +501,8 @@ int	ft_printf(const char *format, ...)
 	return (cnt);
 }
 
-int main(void)
-{
+// int main(void)
+// {
 	// printf("printf return %d\n", printf("[%%s]:%s|%\0|[%%11s]:%11s|[%%+- 11s]:%+- 11s|[%% 05s]:% 05s|[%%- 05.0s]:%- 05.0s|[%% 05.3s]:% 05.3s|[%%-+2.4s]:%-+2.4s|[%%+6.4s]:%+6.4s|[%%5s]:%5s|\n", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", 0));
 	// printf("ft_printf return %d\n", ft_printf("[%%s]:%s|%\0|[%%11s]:%11s|[%%+- 11s]:%+- 11s|[%% 05s]:% 05s|[%%- 05.0s]:%- 05.0s|[%% 05.3s]:% 05.3s|[%%-+2.4s]:%-+2.4s|[%%+6.4s]:%+6.4s|[%%5s]:%5s|\n", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", 0, NULL));
 
@@ -571,49 +543,43 @@ int main(void)
 	// printf("printf return %d\n", printf("[%%X]:%X|[%%4X]:%4X|[%%#+4X]:%#+4X|[%%#+- 4X]:%#+- 4X|[%% #05X]:% #05X|[%%- 04.0X]:%- 04.0X|[%% 04.3X]:% 04.3X|[%%-+2.4X]:%-+2.4X|[%%+#6.4X]:%+#6.4X|[%%6.0X]:%6.0X|%4.0X|\n", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0));
 	// printf("ft_printf return %d\n", ft_printf("[%%X]:%X|[%%4X]:%4X|[%%#+4X]:%#+4X|[%%#+- 4X]:%#+- 4X|[%% #05X]:% #05X|[%%- 04.0X]:%- 04.0X|[%% 04.3X]:% 04.3X|[%%-+2.4X]:%-+2.4X|[%%+#6.4X]:%+#6.4X|[%%6.0X]:%6.0X|%4.0X|\n", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0));
 
-	char *p = "jihyun";
+	// char *p = "jihyun";
 	// printf("printf return %d\n", printf("[%%p]:%p|[%%12p]:%12p|[%%-12p]:%-12p|[%%-12.15p]:%#-12.15p|[%%-20.15p]:%-20.15p|[%%- 012.0p]:%- 012.0p|[%% 012p]:% 012p|[%%012.3p]:%012.3p|[%%-+12.4p]:%-+12.4p|[%%12.15p]:%12.15p|[%%12.0p]:%12.0p|%12.0p|\n", p, p, p, p, p, p, p, p, p, p, p, 0));
 	// printf("ft_printf return %d\n", ft_printf("[%%p]:%p|[%%12p]:%12p|[%%-12p]:%-12p|[%%-12.15p]:%#-12.15p|[%%-20.15p]:%-20.15p|[%%- 012.0p]:%- 012.0p|[%% 012p]:% 012p|[%%012.3p]:%012.3p|[%%-+12.4p]:%-+12.4p|[%%12.15p]:%12.15p|[%%12.0p]:%12.0p|%12.0p|\n", p, p, p, p, p, p, p, p, p, p, p, 0));
 
 
-	printf("return: %d\n", printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.-n'\n%6.-5c|%6.-5s|%12.-5p|%+6.-5d|%+6.-5i|%+6.-5u|%#6.-5x|%#6.-5X|%6.-5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'w.-n'\n%6.-5c|%6.-5s|%12.-5p|%+6.-5d|%+6.-5i|%+6.-5u|%#6.-5x|%#6.-5X|%6.-5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.-0'\n%6.-0c|%6.-0s|%12.-0p|%+6.-0d|%+6.-0i|%+6.-0u|%#6.-0x|%#6.-0X|%6.-0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", ft_printf("'w.-0'\n%6.-0c|%6.-0s|%12.-0p|%+6.-0d|%+6.-0i|%+6.-0u|%#6.-0x|%#6.-0X|%6.-0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.-'\n%6.-c|%6.-s|%12.-p|%+6.-d|%+6.-i|%+6.-u|%#6.-x|%#6.-X|%6.-%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", ft_printf("'w.-'\n%6.-c|%6.-s|%12.-p|%+6.-d|%+6.-i|%+6.-u|%#6.-x|%#6.-X|%6.-%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'0w.n'\n%06.1c|%06.1s|%012.1p|%+06.1d|%+06.1i|%+06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'0w.n'\n%06.1c|%06.1s|%012.1p|%+06.1d|%+06.1i|%+06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'0w.n'\n%06.5c|%06.5s|%012.5p|%+06.5d|%+06.5i|%+06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'0w.n'\n%06.5c|%06.5s|%012.5p|%+06.5d|%+06.5i|%+06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	ft_printf("return: %d\n", ft_printf("'w.0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
-	printf("return: %d\n", printf("'w.0 0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
-	ft_printf("return: %d\n", ft_printf("'w.0 0'\n%6.0c|%6.0s|%12.0p|%+6.0d|%+6.0i|%+6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
-}
+	// printf("return: %d\n", printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("default w\n%4c|%4s|%4p|%4d|%4i|%4u|%6x|%6X|%4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-w'\n%-4c|%-4s|%-4p|%-4d|%-4i|%-4u|%-6x|%-6X|%-4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-+w'\n%-+4c|%-+4s|%-+4p|%-+4d|%-+4i|%-+4u|%-+6x|%-+6X|%-+4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'- w'\n%- 4c|%- 4s|%- 4p|%- 4d|%- 4i|%- 4u|%- 6x|%- 6X|%- 4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'#w'\n%#4c|%#4s|%#20p|%#4d|%#4i|%#4u|%#6x|%#6X|%#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w'\n%04c|%04s|%020p|%04d|%04i|%04u|%06x|%06X|%04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0#w'\n%0#4c|%0#4s|%0#20p|%0#4d|%0#+4i|%0#4u|%0#6x|%0#6X|%0#4%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'-0w'\n%-04c|%-04s|%-020p|%-04d|%-04i|%-04u|%-06x|%-06X|%-04%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'.'\n%.c|%.s|%.p|%.d|%.i|%.u|%.x|%.X|%.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.'\n%4.c|%4.s|%20.p|%4.d|%4.i|%4.u|%6.x|%6.X|%4.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.'\n%04.c|%04.s|%020.p|%04.d|%04.i|%04.u|%0#6.x|%0#6.X|%04.%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.n'\n%6.1c|%6.1s|%12.1p|%+6.1d|%+6.1i|%+6.1u|%#6.1x|%#6.1X|%6.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.n'\n%6.5c|%6.5s|%12.5p|%+6.5d|%+6.5i|%+6.5u|%#6.5x|%#6.5X|%6.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.n'\n%6c|%6.1s|%12p|%+06.1d|%+06.1i|%06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.n'\n%6c|%6.1s|%12p|%+06.1d|%+06.1i|%06.1u|%#06.1x|%#06.1X|%06.1%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'0w.n'\n%6c|%6.5s|%12p|%+06.5d|%+06.5i|%06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'0w.n'\n%6c|%6.5s|%12p|%+06.5d|%+06.5i|%06.5u|%#06.5x|%#06.5X|%06.5%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.0'\n%6c|%6.0s|%12p|%+6.0d|%+6.0i|%6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// ft_printf("return: %d\n", ft_printf("'w.0'\n%6c|%6.0s|%12p|%+6.0d|%+6.0i|%6.0u|%#6.0x|%#6.0X|%6.0%|\n", 'a', "abc", p, -1, 2, 1, 0x16, 0x17));
+	// printf("return: %d\n", printf("'w.0 0'\n%6c|%6.0s|%12p|%+6.0d|%+6.0i|%6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
+	// ft_printf("return: %d\n", ft_printf("'w.0 0'\n%6c|%6.0s|%12p|%+6.0d|%+6.0i|%6.0u|%#6.0x|%#6.0X|%6.0%|\n", 0, 0, 0, 0, 0, 0, 0, 0));
+// }
