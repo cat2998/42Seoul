@@ -27,4 +27,6 @@ re:			$(MAKE) fclean
 $(NAME):	$(OBJS)
 			$(AR) $@ $^
 
+bonus:		$(NAME)
+
 .PHONY:		all clean fclean re

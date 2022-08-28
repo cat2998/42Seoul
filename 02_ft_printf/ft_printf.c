@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 03:09:29 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/29 04:43:18 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	ft_info_check(const char *format, t_info *info)
 		info->prec = 1;
 	else
 	{
-		if (info->prec == 1 && info->prec_n == 0 && *format == '0')
-			info->prec = -1;
-		else if (info->prec == 1)
+		if (info->prec == 1)
 			info->prec_n = info->prec_n * 10 + (*format - 48);
 		else
 			info->width = info->width * 10 + (*format - 48);
@@ -173,11 +171,8 @@ int	ft_print_s(char *str, t_info *info)
 
 	cnt = 0;
 	if (str == 0)
-	{
-		info->prec = 0;
-		cnt += ft_putstrprec("(null)", info);
-	}
-	else if (info->minus == 1)
+		str = "(null)";
+	if (info->minus == 1)
 	{
 		cnt += ft_putstrprec(str, info);
 		cnt += ft_print_s_zerospace(str, info);
@@ -342,7 +337,7 @@ int	ft_print_di(int d, t_info *info)
 
 	cnt = 0;
 	n = sign_check(d, info);
-	if (info->prec == -1 && d == 0)
+	if (info->prec == 1 && info->prec_n == 0 && d == 0)
 		return (ft_print_none(info));
 	if (info->minus == 1)
 	{
@@ -362,18 +357,18 @@ int	ft_print_di(int d, t_info *info)
 	return (cnt);
 }
 
-int	ft_print_sharp(t_info *info)
+int	ft_print_sharp(unsigned long long d, t_info *info)
 {
 	int	cnt;
 
 	cnt = 0;
-	if (info->type == 'x' && info->sharp == 1)
+	if (info->type == 'x' && info->sharp == 1 && d != 0)
 	{
 		write(1, "0", 1);
 		write(1, "x", 1);
 		cnt += 2;
 	}
-	else if (info->type == 'X' && info->sharp == 1)
+	else if (info->type == 'X' && info->sharp == 1 && d != 0)
 	{
 		write(1, "0", 1);
 		write(1, "X", 1);
@@ -382,7 +377,7 @@ int	ft_print_sharp(t_info *info)
 	else if (info->type == 'p')
 	{
 		write(1, "0", 1);
-		write(1, "X", 1);
+		write(1, "x", 1);
 		cnt += 2;
 	}
 	return (cnt);
@@ -394,11 +389,11 @@ int	ft_print_uxXp(unsigned long long d, t_info *info)
 
 	cnt = 0;
 	base_check(info);
-	if (info->prec == -1 && d == 0)
+	if (info->prec == 1 && info->prec_n == 0 && d == 0)
 		return (ft_print_none(info));
 	if (info->minus == 1)
 	{
-		cnt += ft_print_sharp(info);
+		cnt += ft_print_sharp(d, info);
 		cnt += ft_print_diuxX_prec(d, info);
 		cnt += ft_putnbr(d, info);
 		cnt = ft_print_diuxX_width(cnt, d, info);
@@ -406,7 +401,7 @@ int	ft_print_uxXp(unsigned long long d, t_info *info)
 	else
 	{
 		cnt = ft_print_diuxX_width(cnt, d, info);
-		cnt += ft_print_sharp(info);
+		cnt += ft_print_sharp(d, info);
 		cnt = ft_print_diuxX_zero(cnt, d, info);
 		cnt += ft_print_diuxX_prec(d, info);
 		cnt += ft_putnbr(d, info);
@@ -475,8 +470,19 @@ int	ft_printf(const char *format, ...)
 	return (cnt);
 }
 
+// #include <stdio.h>
 // int main(void)
 // {
+// 	printf("%+d\n", 0);
+// 	ft_printf("%+d\n", 0);
+// 	printf("%#x\n", 0);
+// 	ft_printf("%#x\n", 0);
+// 	printf("%-#x\n", 0);
+// 	ft_printf("%-#x\n", 0);
+// 	printf("%#.x|\n", 0);
+// 	ft_printf("%#.x|\n", 0);
+// }
+
 	// printf("printf return %d\n", printf("[%%s]:%s|%\0|[%%11s]:%11s|[%%+- 11s]:%+- 11s|[%% 05s]:% 05s|[%%- 05.0s]:%- 05.0s|[%% 05.3s]:% 05.3s|[%%-+2.4s]:%-+2.4s|[%%+6.4s]:%+6.4s|[%%5s]:%5s|\n", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", 0));
 	// printf("ft_printf return %d\n", ft_printf("[%%s]:%s|%\0|[%%11s]:%11s|[%%+- 11s]:%+- 11s|[%% 05s]:% 05s|[%%- 05.0s]:%- 05.0s|[%% 05.3s]:% 05.3s|[%%-+2.4s]:%-+2.4s|[%%+6.4s]:%+6.4s|[%%5s]:%5s|\n", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", "hello DH!", 0, NULL));
 

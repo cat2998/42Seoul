@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 03:05:20 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 03:08:55 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/29 04:09:08 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_print_diuxX_prec(unsigned long long n, t_info *info);
 int	ft_print_diuxX_width(int cnt, unsigned long long n, t_info *info);
 int	ft_print_diuxX_zero(int cnt, unsigned long long n, t_info *info);
 int	ft_print_di(int d, t_info *info);
-int	ft_print_sharp(t_info *info);
+int	ft_print_sharp(unsigned long long d, t_info *info);
 int	ft_print_uxXp(unsigned long long d, t_info *info);
 int	ft_format_info_print(va_list *ap, t_info *info);
 int	ft_format_printf(va_list ap, const char *format);
