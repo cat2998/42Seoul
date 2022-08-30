@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:43:05 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 21:12:15 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:47:32 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_print_plusspace(t_info *info)
 	return (cnt);
 }
 
-int	ft_print_prec(unsigned long long n, t_info *info)
+int	ft_print_prec(unsigned long n, t_info *info)
 {
 	int	cnt;
 	int	len;
@@ -54,7 +54,7 @@ int	ft_print_prec(unsigned long long n, t_info *info)
 	return (cnt);
 }
 
-int	ft_print_width(int cnt, unsigned long long n, t_info *info)
+int	ft_print_width(int cnt, unsigned long n, t_info *info)
 {
 	int	count;
 	int	tmp;
@@ -82,7 +82,7 @@ int	ft_print_width(int cnt, unsigned long long n, t_info *info)
 	return (cnt);
 }
 
-int	ft_print_zero(int cnt, unsigned long long n, t_info *info)
+int	ft_print_zero(int cnt, unsigned long n, t_info *info)
 {
 	int	len;
 

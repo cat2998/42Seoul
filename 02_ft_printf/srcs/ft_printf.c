@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 21:08:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 21:05:10 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:46:10 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_format_info_print(va_list ap, t_info *info)
 	else if (info->type == 's')
 		cnt = ft_print_s(va_arg(ap, char *), info);
 	else if (info->type == 'p')
-		cnt = ft_print_uxp(va_arg(ap, unsigned long long), info);
+		cnt = ft_print_uxp(va_arg(ap, unsigned long), info);
 	else if (info->type == 'd' || info->type == 'i')
 		cnt = ft_print_di(va_arg(ap, int), info);
 	else if (info->type == 'u' || info->type == 'x' || info->type == 'X')

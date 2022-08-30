@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:37:37 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 21:12:35 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:46:00 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	width_check(int count, t_info *info)
 	return (count);
 }
 
-int	ft_len(unsigned long long n, t_info *info)
+int	ft_len(unsigned long n, t_info *info)
 {
 	int	len;
 

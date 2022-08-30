@@ -6,13 +6,13 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:44:03 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 20:07:18 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:46:09 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_sharp(unsigned long long d, t_info *info)
+int	ft_print_sharp(unsigned long d, t_info *info)
 {
 	int	cnt;
 
@@ -38,7 +38,7 @@ int	ft_print_sharp(unsigned long long d, t_info *info)
 	return (cnt);
 }
 
-int	ft_print_uxp(unsigned long long d, t_info *info)
+int	ft_print_uxp(unsigned long d, t_info *info)
 {
 	int	cnt;
 

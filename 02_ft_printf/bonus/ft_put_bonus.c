@@ -6,19 +6,19 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:45:54 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 21:12:29 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:45:59 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-int	ft_putnbr(unsigned long long n, t_info *info)
+int	ft_putnbr(unsigned long n, t_info *info)
 {
 	int		cnt;
 	char	str;
 
 	cnt = 0;
-	if (n >= (unsigned long long)info->base)
+	if (n >= (unsigned long)info->base)
 	{
 		cnt += ft_putnbr(n / info->base, info);
 		str = n % info->base + 48;

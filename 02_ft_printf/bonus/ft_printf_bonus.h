@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 03:05:20 by jgwon             #+#    #+#             */
-/*   Updated: 2022/08/29 21:12:01 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:45:52 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ int				ft_putstrprec(char *str, t_info *info);
 int				ft_print_szerospace(char *str, t_info *info);
 int				ft_print_s(char *str, t_info *info);
 void			base_check(t_info *info);
-int				ft_len(unsigned long long n, t_info *info);
-int				ft_putnbr(unsigned long long n, t_info *info);
+int				ft_len(unsigned long n, t_info *info);
+int				ft_putnbr(unsigned long n, t_info *info);
 unsigned int	sign_check(int d, t_info *info);
 int				width_check(int count, t_info *info);
 int				ft_print_plusspace(t_info *info);
-int				ft_print_prec(unsigned long long n, t_info *info);
-int				ft_print_width(int cnt, unsigned long long n, t_info *info);
-int				ft_print_zero(int cnt, unsigned long long n, t_info *info);
+int				ft_print_prec(unsigned long n, t_info *info);
+int				ft_print_width(int cnt, unsigned long n, t_info *info);
+int				ft_print_zero(int cnt, unsigned long n, t_info *info);
 int				ft_print_di(int d, t_info *info);
-int				ft_print_sharp(unsigned long long d, t_info *info);
-int				ft_print_uxp(unsigned long long d, t_info *info);
+int				ft_print_sharp(unsigned long d, t_info *info);
+int				ft_print_uxp(unsigned long d, t_info *info);
 int				ft_format_info_print(va_list ap, t_info *info);
 int				ft_format_printf(va_list ap, const char *format);
 int				ft_printf(const char *format, ...);
