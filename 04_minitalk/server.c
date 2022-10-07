@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 22:16:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/08 01:20:19 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/08 01:26:50 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_printf(unsigned int n)
 
 void    zeroBit()
 {
-    printf("0");
+    write(1, "0\n", 2);
 }
 
 void oneBit()
 {
-    printf("1");
+    write(1, "1\n", 2);
 }
 
 int main(void)
@@ -57,5 +57,6 @@ int main(void)
         write(1, "waiting~\n", 9);
         pause();
         write(1, "get!\n", 5);
+        sleep(1);
     }
 }
