@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 21:02:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/07 23:33:45 by jgwon            ###   ########.fr       */
+/*   Created: 2022/10/07 22:16:24 by jgwon             #+#    #+#             */
+/*   Updated: 2022/10/07 23:09:25 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// pid string
 #include <stdio.h>
+#include <unistd.h>
 
-int main(int argc, char* argv[])
+void	ft_printf(unsigned int n)
 {
-    int pid = 0;
-    int i = 0;
+	char	str;
 
-    if (argc < 3)
-        return (0);
-    while (argv[1][i] != '\0')
-    {
-        pid = pid * 10 + (argv[1][i] - 48);
-        i++;
-    }
-    printf("pid: %d\n", pid);
-    i = 0;
-	while (argv[2][i] != '\0')
-    {
-        i++;
-    }
-    printf("string length: %d\n", i);
+	if (n >= 10)
+	{
+		ft_printf(n / 10);
+		str = n % 10 + 48;
+	}
+	else
+		str = n + 48;
+	write(1, &str, 1);
+	return ;
+}
 
-    return (0);
+int main(void)
+{
+    ft_printf(getpid());
+    printf("\n%d\n", getpid());
 }
