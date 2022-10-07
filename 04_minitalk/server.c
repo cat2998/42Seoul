@@ -6,12 +6,13 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 22:16:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/07 23:09:25 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/08 01:20:19 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
+#include <signal.h>
 
 void	ft_printf(unsigned int n)
 {
@@ -28,8 +29,33 @@ void	ft_printf(unsigned int n)
 	return ;
 }
 
+void    zeroBit()
+{
+    printf("0");
+}
+
+void oneBit()
+{
+    printf("1");
+}
+
 int main(void)
 {
     ft_printf(getpid());
-    printf("\n%d\n", getpid());
+    printf("\n");
+
+    sigset_t set;
+
+	sigemptyset(&set);
+	sigaddset(&set, SIGUSR1);
+	sigaddset(&set, SIGUSR2);
+
+    signal(SIGUSR1, zeroBit);
+    signal(SIGUSR2, oneBit);
+    while (1)
+    {
+        write(1, "waiting~\n", 9);
+        pause();
+        write(1, "get!\n", 5);
+    }
 }
