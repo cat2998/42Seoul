@@ -6,65 +6,80 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 21:02:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/08 01:20:16 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/09 01:52:45 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// pid string
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
 
-void    ft_bitSignal(int pid, char c)
+// char    itoa_signal(int pid, int n)
+// {
+//     if (n >= 10)
+//     {
+//         itoa(n / 10);
+//         n = n % 10 + 48;
+//     }
+//     else
+//         n = n + 48;
+//     bit_signal(pid, n);
+// }
+
+void    bit_signal(int pid, char c)
 {
-    int i = 7;
+    int i;
     int bit;
 
+    i = 7;
     while (i >= 0)
     {
         bit = c >> i & 1;
         if (bit == 0)
         {
-            printf("시그널 보낸다! %d\n", bit);
             if (kill(pid, SIGUSR1) == -1)
-                printf("시그널 보내기 실패!");
+                write(1, "killerror", 9);
+            usleep(30);
         }
         else if (bit == 1)
         {
-            printf("시그널 보낸다! %d\n", bit);
             if (kill(pid, SIGUSR2) == -1)
-                printf("시그널 보내기 실패!");
+                write(1, "killerror", 9);
+            usleep(30);
         }
         i--;
+        usleep(125);
     }
 }
 
 int main(int argc, char* argv[])
 {
-    int pid = 0;
-    int i = 0;
+    int i;
+    int pid;
 
-    if (argc < 3)
+    i = 0;
+    pid = 0;
+    if (argc != 3)
         return (0);
     while (argv[1][i] != '\0')
     {
         pid = pid * 10 + (argv[1][i] - 48);
         i++;
     }
-    printf("pid: %d\n", pid);
-    i = 2;
-	while (argv[i] != 0)
+    if (pid < 100 || 99999 < pid)
+        return (0);
+    // i = 0;
+    // while (argv[2][i] != '\0')
+    //     i++;
+    // itoa_signal(pid, i);
+    // bit_signal(pid, 127);
+    i = 0;
+    while (argv[2][i] != '\0')
     {
-        int j = 0;
-        while (argv[i][j] != '\0')
-        {
-            ft_bitSignal(pid, argv[i][j]);
-            j++;
-        }
+        bit_signal(pid, argv[2][i]);
         i++;
-        if (argv[i] != 0)
-            printf(" ");
     }
+    bit_signal(pid, 127);
 
     return (0);
 }
