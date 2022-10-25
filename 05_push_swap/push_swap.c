@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,17 +46,20 @@ long atoi_is_int(char *argv)
 
 int main(int argc, char *argv[])
 {
-    int *list;
-    list = (int *)malloc(sizeof(int) * (argc - 1));
-    int i = 1;
-    while (argc > i)
+    t_stack stackA;
+
+    init_stack(stackA);
+
+    // int *list;
+    // list = (int *)malloc(sizeof(int) * (argc - 1));
+    while (argc > 1)
     {
-        list[i - 1] = atoi_is_int(argv[i]);
-        i++;
+        atoi_is_int(argv[argc - 1]);
+        argc--;
     }
-    for (int j = 0; j < argc - 1; j++)
-    {
-        printf("list[%d]: %d\n", j, list[j]);
-    }
+    // for (int j = 0; j < argc - 1; j++)
+    // {
+    //     printf("list[%d]: %d\n", j, list[j]);
+    // }
     // quick_sork()
 }
