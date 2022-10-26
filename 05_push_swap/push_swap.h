@@ -1,6 +1,8 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# include <unistd.h>
+
 typedef struct s_node
 {
 	int				value;
@@ -15,6 +17,6 @@ typedef struct s_stack
 	t_node	*bottom;
 }	t_stack;
 
-void    init_stack(t_stack s);
+void    init_stack(t_stack *s);
 
 #endif

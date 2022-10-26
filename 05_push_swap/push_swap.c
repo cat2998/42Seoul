@@ -11,10 +11,17 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
-long atoi_is_int(char *argv)
+void print_error(void)
+{
+    write(1, "Error\n", 6);
+    return ;
+}
+
+long ft_atoi(char *argv)
 {
     int i;
     int minus;
@@ -30,10 +37,15 @@ long atoi_is_int(char *argv)
     }
     while (argv[i] != '\0')
     {
-        if (48 <= argv[i] && argv[i] <= 57)
+        if (argv[i] == ' ')
+            result = 0;
+        else if (48 <= argv[i] && argv[i] <= 57)
             result = result * 10 + argv[i] - 48;
         else
-            return 3000000000;
+        {
+            write(1, "1", 1);
+            exit(0);
+        }
         i++;
     }
     if (minus == 1)
@@ -41,25 +53,20 @@ long atoi_is_int(char *argv)
     if (-2147483648 <= result && result <= 2147483647)
         return result;
     else
-        return 3000000000;
+        exit(0);
 }
 
 int main(int argc, char *argv[])
 {
-    t_stack stackA;
+    t_stack *stackA;
 
+    atexit(print_error);
     init_stack(stackA);
 
-    // int *list;
-    // list = (int *)malloc(sizeof(int) * (argc - 1));
     while (argc > 1)
     {
-        atoi_is_int(argv[argc - 1]);
+        ft_atoi(argv[argc - 1]);
         argc--;
     }
-    // for (int j = 0; j < argc - 1; j++)
-    // {
-    //     printf("list[%d]: %d\n", j, list[j]);
-    // }
     // quick_sork()
 }
