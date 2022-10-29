@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:36 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/28 01:50:37 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/29 17:07:09 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,26 @@ void    init_stack(t_stack *s)
 	s->bottom = 0;
 }
 
-int	push_node(t_stack *stack, int n)
+void	push_node(t_stack *stack, t_node *node)
 {
-	t_node *node;
-
-    node = malloc(sizeof(t_node) * 1);
-	if (!node)
-		return (0);
-	stack->size += 1;
-	node->value = n;
-	node->prev = 0;
-	if (stack->top == 0)
+	if (stack->size == 0)
 	{
+		node->next = node;
+		node->prev = node;
 		stack->top = node;
 		stack->bottom = node;
-		node->next = 0;
 	}
 	else
 	{
-		stack->top->prev = node;
 		node->next = stack->top;
+		node->prev = stack->bottom;
+		stack->top->prev = node;
+		stack->bottom->next = node;
 		stack->top = node;
 	}
-	return (1);
+	stack->size += 1;
+	return ;
 }
-
-// void	swap_stack(t_stack *stack)
-// {
-// 	if (stack->size == 1)
-// 		return ;
-// 	stack->top = stack->top->next;
-// 	stack->top->prev->prev = stack->top;
-// 	stack->top->prev->next = stack->top->next;
-// 	stack->top->next = stack->top->prev;
-// 	stack->top->prev = 0;
-// 	return ;
-// }
 
 void	swap_stack(t_stack *stack)
 {
@@ -74,21 +58,7 @@ void	push_stack(t_stack *stackA, t_stack *stackB)
 {
 	if (stackA->size == 0)
 		return ;
-	if (stackB->top == 0)
-	{
-		stackA->top = stackA->top->next;
-		stackB->top = stackA->top->prev;
-		stackB->bottom = stackB->top;
-		stackB->top->next = 0;	
-	}
-	else
-	{
-		stackA->top = stackA->top->next;
-		stackB->top->prev = stackA->top->prev;
-		stackB->top->prev->next = stackB->top;
-		stackB->top = stackB->top->prev;
-		stackA->top->prev = 0;
-	}
+	
 	stackB->size += 1;
 	stackA->size -= 1;
 	return ;
@@ -98,21 +68,32 @@ void	rotate_stack(t_stack *stack)
 {
 	if (stack->size < 2)
 		return ;
-	
+	stack->bottom = stack->top;
+	stack->top = stack->top->next;
+	return ;
+}
+
+void	reverse_rotate_stack(t_stack *stack)
+{
+	if (stack->size < 2)
+		return ;
+	stack->top = stack->bottom;
+	stack->bottom = stack->bottom->prev;
+	return ;
 }
 
 void	print_stack(t_stack *stack)
 {
+	int	i;
 	t_node	*node;
 
-	if (stack->size == 0)
-		return ;
+	i = 0;
 	node = stack->top;
-	while (node->next != 0)
+	while (stack->size > i)
 	{
 		printf("%d\n", node->value);
 		node = node->next;
+		i++;
 	}
-	printf("%d\n", node->value);
 	return ;
 }

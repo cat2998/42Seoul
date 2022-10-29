@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/28 01:50:42 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/29 17:03:22 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ typedef struct s_stack
 }	t_stack;
 
 void    init_stack(t_stack *s);
+void	push_node(t_stack *stackA, t_node *node);
 void	swap_stack(t_stack *stack);
-int	push_node(t_stack *stackA, int n);
 void	push_stack(t_stack *stackA, t_stack *stackB);
+void	rotate_stack(t_stack *stack);
+void	reverse_rotate_stack(t_stack *stack);
 
 void	print_stack(t_stack *stackA);
 

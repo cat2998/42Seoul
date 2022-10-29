@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 15:54:46 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/28 01:50:40 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/29 17:05:04 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,13 @@ void ft_atoi(t_stack *stackA, char *argv)
 		result += argv[i] - '0';
 		i++;
 	}
-    push_node(stackA, result);
+    t_node *node;
+
+    node = malloc(sizeof(t_node) * 1);
+	if (!node)
+		return ;
+	node->value = result;
+    push_node(stackA, node);
 	return ;
 }
 
@@ -104,25 +110,39 @@ int main(int argc, char *argv[])
     swap_stack(stackA);
     print_stack(stackA);
     printf("----stackA push node-----\n");
-    push_node(stackA, 10);
-    print_stack(stackA);
-    t_stack *stackB;
-    stackB = malloc(sizeof(t_stack) * 1);
-	if (!stackB)
+    t_node *node;
+    node = malloc(sizeof(t_node) * 1);
+	if (!node)
 		return (0);
-    init_stack(stackB);
-    printf("----stackB-----\n");
-    print_stack(stackB);
-    printf("----stackB push node-----\n");
-    push_node(stackB, 100);
-    print_stack(stackB);
-    printf("----stackA push stackB-----\n");
-    printf("----stackB-----\n");
-    push_stack(stackA, stackB);
-    print_stack(stackB);
-    printf("----stackB push node-----\n");
-    push_node(stackB, 20);
-    print_stack(stackB);
+	node->value = 10;
+    push_node(stackA, node);
+    print_stack(stackA);
+    printf("----stackA rotate-----\n");
+    rotate_stack(stackA);
+    print_stack(stackA);
+    printf("----stackA rotate-----\n");
+    rotate_stack(stackA);
+    print_stack(stackA);
+    printf("----stackA reverse rotate-----\n");
+    reverse_rotate_stack(stackA);
+    print_stack(stackA);
+    // t_stack *stackB;
+    // stackB = malloc(sizeof(t_stack) * 1);
+	// if (!stackB)
+	// 	return (0);
+    // init_stack(stackB);
+    // printf("----stackB-----\n");
+    // print_stack(stackB);
+    // printf("----stackB push node-----\n");
+    // push_node(stackB, 100);
+    // print_stack(stackB);
+    // printf("----stackA push stackB-----\n");
+    // printf("----stackB-----\n");
+    // push_stack(stackA, stackB);
+    // print_stack(stackB);
+    // printf("----stackB push node-----\n");
+    // push_node(stackB, 20);
+    // print_stack(stackB);
     return (0);
     // quick_sork()
 }
