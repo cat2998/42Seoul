@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/29 17:03:22 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/30 03:16:23 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	swap_stack(t_stack *stack);
 void	push_stack(t_stack *stackA, t_stack *stackB);
 void	rotate_stack(t_stack *stack);
 void	reverse_rotate_stack(t_stack *stack);
+
+int lower_bound(int *list, int size, int target);
+int find_lis_size(int *lis, int *index, t_stack *stack);
+void    make_lis(int *lis, int lis_size, int *index, t_stack *stack);
+int    find_lis(t_stack *stack, int *lis);
 
 void	print_stack(t_stack *stackA);
 
