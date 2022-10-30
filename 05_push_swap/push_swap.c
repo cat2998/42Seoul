@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 15:54:46 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/30 03:16:32 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/30 21:11:11 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int    split_stack(t_stack *stackA, t_stack *stackB)
 
 int main(int argc, char *argv[])
 {
+    int *sort_list;
     t_stack *stackA;
     t_stack *stackB;
 
@@ -151,9 +152,26 @@ int main(int argc, char *argv[])
         ft_atoi(stackA, argv[argc - 1]);
         argc--;
     }
+    sort_list = quick_sort_stack(stackA);
+    printf("----sort----\n");
+    for(int i = 0; i < stackA->size; i++)
+    {
+        printf("%d ", sort_list[i]);
+    }
+    printf("\n");
     split_stack(stackA, stackB);
+    printf("----stackA----\n");
     print_stack(stackA);
+    printf("----stackB----\n");
     print_stack(stackB);
+    while (stackB->size > 0)
+    {
+        b_to_a(stackA, stackB);
+        printf("----stackA----\n");
+        print_stack(stackA);
+        printf("----stackB----\n");
+        print_stack(stackB);
+    }
 
     return (0);
 }

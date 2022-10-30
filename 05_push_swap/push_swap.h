@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/30 03:16:23 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/30 19:56:33 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_node
 	int				value;
 	struct s_node	*prev;
 	struct s_node	*next;
+	int				info[5];
 }	t_node;
 
 typedef struct s_stack
@@ -29,6 +30,9 @@ typedef struct s_stack
 	t_node	*top;
 	t_node	*bottom;
 }	t_stack;
+
+
+int *quick_sort_stack(t_stack *stack);
 
 void    init_stack(t_stack *s);
 void	push_node(t_stack *stackA, t_node *node);
@@ -41,6 +45,8 @@ int lower_bound(int *list, int size, int target);
 int find_lis_size(int *lis, int *index, t_stack *stack);
 void    make_lis(int *lis, int lis_size, int *index, t_stack *stack);
 int    find_lis(t_stack *stack, int *lis);
+
+void    b_to_a(t_stack *stackA,t_stack *stackB);
 
 void	print_stack(t_stack *stackA);
 
