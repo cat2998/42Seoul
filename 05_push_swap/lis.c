@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 22:52:40 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/30 15:32:30 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/31 01:34:15 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,46 +55,20 @@ int find_lis_size(int *lis, int *index, t_stack *stack)
         }
         node = node->next;
     }
-    printf("----before lis----\n");
-    for (int j = 0; j < i; j++)
-    {
-        printf("%d ", lis[j]);
-    }
-    printf("\n");
-    printf("----index----\n");
-    for (int j = 0; j < i; j++)
-    {
-        printf("%d ", index[j]);
-    }
-    printf("\n");
+    // printf("----before lis----\n");
+    // for (int j = 0; j < i; j++)
+    // {
+    //     printf("%d ", lis[j]);
+    // }
+    // printf("\n");
+    // printf("----index----\n");
+    // for (int j = 0; j < i; j++)
+    // {
+    //     printf("%d ", index[j]);
+    // }
+    // printf("\n");
     return (size);
 }
-
-// void    make_lis(int *lis, int lis_size, int *index, t_stack *stack)
-// {
-//     int i;
-//     int find;
-//     t_node  *node;
-
-//     find = 0;
-//     while (find < lis_size)
-//     {
-//         i = 0;
-//         node = stack->top;
-//         while (i < stack->size)
-//         {
-//             if (index[i] == find)
-//             {
-//                 lis[find] = node->value;
-//                 break;
-//             }
-//             node = node->next;
-//             i++;
-//         }
-//         find++;
-//     }
-//     return ;
-// }
 
 void    make_lis(int *lis, int lis_size, int *index, t_stack *stack)
 {
@@ -127,12 +101,12 @@ int    find_lis(t_stack *stack, int *lis)
 	if (!index)
 		return (0);
     lis_size = find_lis_size(lis, index, stack);
-    printf("lis_size:%d\n", lis_size);
+    // printf("lis_size:%d\n", lis_size);
     make_lis(lis, lis_size, index, stack);
-    printf("----after lis----\n");
-    for (int i = 0; i < lis_size; i++)
-        printf("%d ", lis[i]);
-    printf("\n");
+    // printf("----after lis----\n");
+    // for (int i = 0; i < lis_size; i++)
+        // printf("%d ", lis[i]);
+    // printf("\n");
     free(index);
     return (1);
 }

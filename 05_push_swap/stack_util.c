@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:36 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/29 22:27:48 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/30 22:40:25 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ void	push_stack(t_stack *stackA, t_stack *stackB)
 {
 	if (stackA->size == 0)
 		return ;
+	else if (stackA->size == 1)
+	{
+		push_node(stackB, stackA->top);
+		stackA->top = 0;
+		stackA->bottom = 0;
+		stackA->size -= 1;
+		return ;
+	}
 	stackA->top = stackA->top->next;
 	push_node(stackB, stackA->top->prev);
 	stackA->top->prev = stackA->bottom;

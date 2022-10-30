@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 13:28:11 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/30 21:10:30 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/10/31 02:15:15 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,21 @@ int is_sort(t_stack *stack, t_node *node)
     return (1);
 }
 
+int is_reverse_sort(t_stack *stack, t_node *node)
+{
+    int i;
+
+    i = 0;
+    while (i < stack->size - 1)
+    {
+        if (node->value > node->prev->value)
+            return (0);
+        node = node->prev;
+        i++;
+    }
+    return (1);
+}
+
 int find_dest(t_stack *stackA, t_stack *stackB)
 {
     int i;
@@ -59,7 +74,7 @@ int find_dest(t_stack *stackA, t_stack *stackB)
     {
         push_stack(stackB, stackA);
         node = find_min_node(stackA);
-        if (is_sort(stackA, node) == 1)
+        if (is_sort(stackA, node) || is_reverse_sort(stackA, node))
         {
             j = 0;
             push_stack(stackA, stackB);
@@ -77,49 +92,12 @@ int find_dest(t_stack *stackA, t_stack *stackB)
     return (0);
 }
 
-// void    get_arr(int *arr, int *i, int a, int b)
-// {
-//     int r;
-//     r = 0;
-//     while (a > 0 && b > 0)
-//     {
-//         r++;
-//         a--;
-//         b--;
-//     }
-//     arr[(*i)++] = r;
-//     arr[(*i)++] = a;
-//     arr[(*i)++] = r;
-//     arr[(*i)++] = b;
-//     return ;
-// }
-
-// void    find_min(int ra, int rra, int rb, int rrb)
-// {
-//     int i;
-//     int min;
-//     int arr[12];
-//     i = 0;
-//     arr[i++] = ra;
-//     arr[i++] = rrb;
-//     arr[i++] = rra;
-//     arr[i++] = rb;
-//     get_arr(arr, &i, ra, rb);
-//     get_arr(arr, &i, rra, rrb);
-//     i = 0;
-//     min = arr[0] + arr[1];
-//     while (i < 12)
-//     {
-//         if (min > arr[i] + arr[i + 1])
-//         {
-//         }
-//     }
-// }
-int ft_max(int a,int b){
-    if(a  > b ) 
-        return a;
+int ft_max(int a, int b)
+{
+    if (a > b) 
+        return (a);
     else
-        return b;
+        return (b);
 }
 
 int    find_min(t_node *node)
@@ -128,10 +106,10 @@ int    find_min(t_node *node)
     int key;
     int values[4];
 
-    values[0] = ft_max(node->info[0],node->info[1]);
+    values[0] = ft_max(node->info[0], node->info[1]);
     values[1] = node->info[0] + node->info[3];
     values[2] = node->info[2] + node->info[1];
-    values[3] = ft_max(node->info[2],node->info[3]);
+    values[3] = ft_max(node->info[2], node->info[3]);
     i = 0;
     key = i;
     while (i < 4)
@@ -144,55 +122,81 @@ int    find_min(t_node *node)
     return (values[key]);
 }
 
-void    b_to_a(t_stack *stackA,t_stack *stackB)
+void    set_node_info(t_stack *stackA, t_stack *stackB, int position)
 {
     int ra;
     int rra;
     int rb;
     int rrb;
 
+    ra = find_dest(stackA, stackB);
+    rra = stackA->size - ra;
+    rb = position;
+    rrb = stackB->size - rb;
+    stackB->top->info[0] = ra;
+    stackB->top->info[1] = rb;
+    stackB->top->info[2] = rra;
+    stackB->top->info[3] = rrb;
+    return ;
+}
+
+void    set_node_key_info(t_stack *stackB, int idx)
+{
     int i;
-    int j;
+    t_node  *node;
+
+    i = 0;
+    node = stackB->top;
+    while (i < stackB->size)
+    {
+        if (i == idx)
+        {
+            if (node->info[4] == 0)
+            {
+                node->info[2] = 0;
+                node->info[3] = 0;
+            }
+
+        }
+        node = node->next;
+        i++;
+    }
+}
+
+void    b_to_a(t_stack *stackA,t_stack *stackB)
+{
+    int i;
     int node_min;
     int total_min;
     int node_idx;
     t_node  *node;
 
     i = 0;
-    j = 0;
-    total_min = ft_max(stackA->size, stackB->size);
+    total_min = stackA->size + stackB->size;
     while (i < stackB->size)
     {
-        ra = find_dest(stackA, stackB);
-        rra = stackA->size - ra;
-        rb = i;
-        rrb = stackB->size - rb;
-        stackB->top->info[0] = ra;
-        stackB->top->info[1] = rb;
-        stackB->top->info[2] = rra;
-        stackB->top->info[3] = rrb;
-        printf("ra:%d rb:%d rra:%d rrb:%d\n", ra, rb, rra, rrb);
+        set_node_info(stackA, stackB, i);
+        // printf("ra:%d rb:%d rra:%d rrb:%d\n", ra, rb, rra, rrb);
         node_min = find_min(stackB->top);
-        printf("min:%d\n", node_min);
+        // printf("min:%d\n", node_min);
         if (total_min > node_min)
         {
             total_min = node_min;
             node_idx = i;
-            // node = stackB->top;
         }
         rotate_stack(stackB);
         i++;
     }
-    printf("min:%d\n", total_min);
-    printf("idx:%d\n", node_idx);
-    // printf("node_value:%d, node_key:%d\n", node->value, node->info[4]);
+    // set_node_key_info(stackB, node_idx);
+    // printf("min:%d\n", total_min);
+    // printf("idx:%d\n", node_idx);
     i = 0;
     node = stackB->top;
     while (i < stackB->size)
     {
         if (i == node_idx)
         {
-            printf("node_info[4]:%d\n", node->info[4]);
+            // printf("node_info[4]:%d\n", node->info[4]);
             if (node->info[4] == 0)
             {
                 while (node->info[0] > 0 && node->info[1] > 0)
@@ -273,8 +277,9 @@ void    b_to_a(t_stack *stackA,t_stack *stackB)
         }
         else
             node = node->next;
+        i++;
     }
     push_stack(stackB, stackA);
-    printf("pb\n");
+    printf("pa\n");
     return ;
 }
