@@ -153,6 +153,7 @@ int main(int argc, char *argv[])
         argc--;
     }
     /*오름차순인지, 내림차순인지 확인 필요*/
+    
     sort_list = quick_sort_stack(stackA);
     // printf("----sort----\n");
     // for(int i = 0; i < stackA->size; i++)
