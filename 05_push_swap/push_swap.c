@@ -107,12 +107,19 @@ void    sort_stack(t_stack *stack)
 
 void    free_all(t_stack *stackA, t_stack *stackB)
 {
-    while(stackA->size > 0)
-    {
-        stackA->bottom
-    }
-    free(stackB);
+    t_node  *node;
+    t_node  *next_node;
 
+    next_node = stackA->top;
+    while(stackA->size-- > 0)
+    {
+        node = next_node;
+        next_node = node->next;
+        free(node);
+    }
+    free(stackA);
+    free(stackB);
+    return; 
 }
 
 int main(int argc, char *argv[])
@@ -164,5 +171,6 @@ int main(int argc, char *argv[])
     printf("----stackA----\n");
     print_stack(stackA);
     free_all(stackA, stackB);
+    // system("leaks a.out");
     return (0);
 }
