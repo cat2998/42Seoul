@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/30 19:56:33 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/02 03:41:12 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,8 @@ int is_reverse_sort(t_stack *stack, t_node *node);
 void    b_to_a(t_stack *stackA,t_stack *stackB);
 
 void	print_stack(t_stack *stackA);
+
+char	**ft_split(char const *s, char c);
+void	*ft_split_free(char **split, int split_i);
 
 #endif

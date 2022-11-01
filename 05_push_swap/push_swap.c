@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 15:54:46 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/31 02:07:17 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/02 03:54:32 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,35 @@
 void ft_atoi(t_stack *stackA, char *argv)
 {
     int     i;
+    int     j;
 	long    result;
-
-	i = 0;
-	result = 0;
-	while ('0' <= argv[i] && argv[i] <= '9')
-	{
-		result *= 10;
-		result += argv[i] - '0';
-		i++;
-	}
+    char    **split;
     t_node *node;
 
-    node = malloc(sizeof(t_node) * 1);
-	if (!node)
-		return ;
-    init_node(node);
-	node->value = result;
-    push_node(stackA, node);
+    split = ft_split(argv, ' ');
+    i = 0;
+    while (split[i] != 0)
+    {
+        j = 0;
+        result = 0;
+        while (split[i][j] != '\0')
+        {
+            if ('0' <= split[i][j] && split[i][j] <= '9')
+            {
+                result *= 10;
+                result += split[i][j] - '0';
+            }
+            j++;
+        }
+        node = malloc(sizeof(t_node) * 1);
+        if (!node)
+            return ;
+        init_node(node);
+        node->value = result;
+        push_node(stackA, node);
+        i++;
+    }
+    
 	return ;
 }
 
@@ -68,7 +79,6 @@ void    split_lis_stack(t_stack *stackA, t_stack *stackB, int *lis)
 int    split_stack(t_stack *stackA, t_stack *stackB)
 {
     int *lis;
-    int size;
 
     lis = malloc(sizeof(int) * stackA->size);
     if (!lis)
@@ -124,7 +134,7 @@ void    free_all(t_stack *stackA, t_stack *stackB)
 
 int main(int argc, char *argv[])
 {
-    int *sort_list;
+    // int *sort_list;
     t_stack *stackA;
     t_stack *stackB;
 
@@ -144,10 +154,18 @@ int main(int argc, char *argv[])
         ft_atoi(stackA, argv[argc - 1]);
         argc--;
     }
-    /*오름차순인지, 내림차순인지 확인 필요*/
     if (stackA->size > 0 && is_sort(stackA, stackA->top))
         return (0);
-    sort_list = quick_sort_stack(stackA);
+    if (stackA->size > 0 && is_reverse_sort(stackA, stackA->bottom))
+    {
+        while (stackA->size-- > 0)
+        {
+            rotate_stack(stackA);
+            printf("ra\n");
+        }
+        return (0);
+    }
+    // sort_list = quick_sort_stack(stackA);
     // printf("----sort----\n");
     // for(int i = 0; i < stackA->size; i++)
     // {

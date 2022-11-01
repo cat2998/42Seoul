@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 13:28:11 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/31 02:15:15 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/02 03:21:46 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void    set_node_key_info(t_node *node)
     {
         node->info[4] = ft_min(node->info[0], node->info[1]);
         node->info[0] = node->info[0] - node->info[4];
-        node->info[1] = node->info[0] - node->info[4];
+        node->info[1] = node->info[1] - node->info[4];
         node->info[2] = 0;
         node->info[3] = 0;
     }
