@@ -33,6 +33,29 @@ t_node  *find_min_node(t_stack *stack)
     return (min_node);
 }
 
+int  find_min_node_idx(t_stack *stack)
+{
+    int i;
+    int min_node_idx;
+    t_node *min_node;
+    t_node *node;
+
+    i = 0;
+    node = stack->top;
+    min_node = stack->top;
+    while(i < stack->size)
+    {
+        if (min_node->value > node->value)
+        {
+            min_node = node;
+            min_node_idx = i;
+        }
+        node = node->next;
+        i++;
+    }
+    return (min_node_idx);
+}
+
 int is_sort(t_stack *stack, t_node *node)
 {
     int i;
@@ -100,6 +123,14 @@ int ft_max(int a, int b)
         return (b);
 }
 
+int ft_min(int a, int b)
+{
+    if (a < b) 
+        return (a);
+    else
+        return (b);
+}
+
 int    find_min(t_node *node)
 {
     int i;
@@ -118,7 +149,7 @@ int    find_min(t_node *node)
             key = i;
         i++;
     }
-    node->info[4] = key;
+    node->info[6] = key;
     return (values[key]);
 }
 
@@ -140,27 +171,74 @@ void    set_node_info(t_stack *stackA, t_stack *stackB, int position)
     return ;
 }
 
-void    set_node_key_info(t_stack *stackB, int idx)
+void    set_node_key_info(t_node *node)
 {
-    int i;
-    t_node  *node;
-
-    i = 0;
-    node = stackB->top;
-    while (i < stackB->size)
+    if (node->info[6] == 0)
     {
-        if (i == idx)
-        {
-            if (node->info[4] == 0)
-            {
-                node->info[2] = 0;
-                node->info[3] = 0;
-            }
-
-        }
-        node = node->next;
-        i++;
+        node->info[4] = ft_min(node->info[0], node->info[1]);
+        node->info[0] = node->info[0] - node->info[4];
+        node->info[1] = node->info[0] - node->info[4];
+        node->info[2] = 0;
+        node->info[3] = 0;
     }
+    else if (node->info[6] == 1)
+    {
+        node->info[1] = 0;
+        node->info[2] = 0;
+    }
+    else if (node->info[6] == 2)
+    {
+        node->info[0] = 0;
+        node->info[3] = 0;
+    }
+    else if (node->info[6] == 3)
+    {
+        node->info[5] = ft_min(node->info[2], node->info[3]);
+        node->info[2] = node->info[2] - node->info[5];
+        node->info[3] = node->info[3] - node->info[5];
+        node->info[0] = 0;
+        node->info[1] = 0;
+    }
+    return ;
+}
+
+void    execute(t_stack *stackA, t_stack *stackB, t_node *node)
+{
+    while (node->info[0]-- > 0)
+    {
+        rotate_stack(stackA);
+        printf("ra\n");
+    }
+    while (node->info[1]-- > 0)
+    {
+        rotate_stack(stackB);
+        printf("rb\n");
+    }
+    while (node->info[2]-- > 0)
+    {
+        reverse_rotate_stack(stackA);
+        printf("rra\n");
+    }
+    while (node->info[3]-- > 0)
+    {
+        reverse_rotate_stack(stackB);
+        printf("rrb\n");
+    }
+    while (node->info[4]-- > 0)
+    {
+        rotate_stack(stackA);
+        rotate_stack(stackA);
+        printf("rr\n");
+    }
+    while (node->info[5]-- > 0)
+    {
+        reverse_rotate_stack(stackA);
+        reverse_rotate_stack(stackB);
+        printf("rrr\n");
+    }
+    push_stack(stackB, stackA);
+    printf("pa\n");
+    return ;
 }
 
 void    b_to_a(t_stack *stackA,t_stack *stackB)
@@ -168,7 +246,6 @@ void    b_to_a(t_stack *stackA,t_stack *stackB)
     int i;
     int node_min;
     int total_min;
-    int node_idx;
     t_node  *node;
 
     i = 0;
@@ -182,104 +259,14 @@ void    b_to_a(t_stack *stackA,t_stack *stackB)
         if (total_min > node_min)
         {
             total_min = node_min;
-            node_idx = i;
+            node = stackB->top;
         }
         rotate_stack(stackB);
         i++;
     }
-    // set_node_key_info(stackB, node_idx);
+    set_node_key_info(node);
+    execute(stackA, stackB, node);
     // printf("min:%d\n", total_min);
     // printf("idx:%d\n", node_idx);
-    i = 0;
-    node = stackB->top;
-    while (i < stackB->size)
-    {
-        if (i == node_idx)
-        {
-            // printf("node_info[4]:%d\n", node->info[4]);
-            if (node->info[4] == 0)
-            {
-                while (node->info[0] > 0 && node->info[1] > 0)
-                {
-                    node->info[0]--;
-                    node->info[1]--;
-                    rotate_stack(stackA);
-                    rotate_stack(stackB);
-                    printf("rr\n");
-                }
-                while (node->info[0] > 0)
-                {
-                    node->info[0]--;
-                    rotate_stack(stackA);
-                    printf("ra\n");
-                }
-                while (node->info[1] > 0)
-                {
-                    node->info[1]--;
-                    rotate_stack(stackB);
-                    printf("rb\n");
-                }
-            }
-            else if (node->info[4] == 1)
-            {
-                while (node->info[0] > 0)
-                {
-                    node->info[0]--;
-                    rotate_stack(stackA);
-                    printf("ra\n");
-                }
-                while (node->info[3] > 0)
-                {
-                    node->info[3]--;
-                    reverse_rotate_stack(stackB);
-                    printf("rrb\n");
-                }
-            }
-            else if (node->info[4] == 2)
-            {
-                while (node->info[1] > 0)
-                {
-                    node->info[1]--;
-                    rotate_stack(stackB);
-                    printf("rb\n");
-                }
-                while (node->info[2] > 0)
-                {
-                    node->info[2]--;
-                    reverse_rotate_stack(stackA);
-                    printf("rra\n");
-                }
-            }
-            else if (node->info[4] == 3)
-            {
-                while (node->info[2] > 0 && node->info[3] > 0)
-                {
-                    node->info[2]--;
-                    node->info[3]--;
-                    reverse_rotate_stack(stackA);
-                    reverse_rotate_stack(stackB);
-                    printf("rrr\n");
-                }
-                while (node->info[2] > 0)
-                {
-                    node->info[2]--;
-                    reverse_rotate_stack(stackA);
-                    printf("rra\n");
-                }
-                while (node->info[3] > 0)
-                {
-                    node->info[3]--;
-                    reverse_rotate_stack(stackB);
-                    printf("rrb\n");
-                }
-            }
-            break;
-        }
-        else
-            node = node->next;
-        i++;
-    }
-    push_stack(stackB, stackA);
-    printf("pa\n");
     return ;
 }

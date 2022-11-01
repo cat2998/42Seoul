@@ -15,58 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// void ft_atoi(char *argv)
-// {
-//     int i;
-//     int minus;
-//     int flag;
-//     long result;
-//     i = 0;
-//     minus = 0;
-//     flag = 0;
-//     result = 0;
-//     while (argv[i] != '\0')
-//     {
-//         if (argv[i] == ' ' && flag == 1)
-//         {
-//             if (minus == 1)
-//                 result *= -1;
-//             if (-2147483648 <= result && result <= 2147483647)
-//                 //push stack
-//             flag = 0;
-//             result = 0;
-//         }
-//         else if ((argv[i] == '+' || argv[i] == '-') && flag == 0)
-//         {
-//             if (argv[i] == '-')
-//                 minus = 1;
-//             result = 0;
-//         }
-//         else if (48 <= argv[i] && argv[i] <= 57)
-//         {
-//             result = result * 10 + argv[i] - 48;
-//             flag = 1;
-//         }
-//         else
-//         {
-//             write(1, "Error\n", 6);
-//             //free
-//             exit(0);
-//         }
-//         i++;
-//     }
-//     if (flag == 1)
-//     {
-//         if (minus == 1)            
-//             result *= -1;
-//         if (-2147483648 <= result && result <= 2147483647)
-//         {
-//             //push stack
-//         }
-//     }
-//     return ;
-// }
-
 void ft_atoi(t_stack *stackA, char *argv)
 {
     int     i;
@@ -85,6 +33,7 @@ void ft_atoi(t_stack *stackA, char *argv)
     node = malloc(sizeof(t_node) * 1);
 	if (!node)
 		return ;
+    init_node(node);
 	node->value = result;
     push_node(stackA, node);
 	return ;
@@ -130,6 +79,42 @@ int    split_stack(t_stack *stackA, t_stack *stackB)
     return (1);
 }
 
+void    sort_stack(t_stack *stack)
+{
+    int idx;
+    int r_idx;
+
+    idx = find_min_node_idx(stack);
+    r_idx = stack->size - idx;
+    if (idx < r_idx)
+    {
+        while (idx-- > 0)
+        {
+            rotate_stack(stack);
+            printf("ra\n");
+        }
+    }
+    else
+    {
+        while (r_idx-- > 0)
+        {
+            reverse_rotate_stack(stack);
+            printf("rra\n");
+        }
+    }
+    return ;
+}
+
+void    free_all(t_stack *stackA, t_stack *stackB)
+{
+    while(stackA->size > 0)
+    {
+        stackA->bottom
+    }
+    free(stackB);
+
+}
+
 int main(int argc, char *argv[])
 {
     int *sort_list;
@@ -153,7 +138,8 @@ int main(int argc, char *argv[])
         argc--;
     }
     /*오름차순인지, 내림차순인지 확인 필요*/
-    
+    if (stackA->size > 0 && is_sort(stackA, stackA->top))
+        return (0);
     sort_list = quick_sort_stack(stackA);
     // printf("----sort----\n");
     // for(int i = 0; i < stackA->size; i++)
@@ -174,7 +160,9 @@ int main(int argc, char *argv[])
         // printf("----stackB----\n");
         // print_stack(stackB);
     }
+    sort_stack(stackA);
     printf("----stackA----\n");
     print_stack(stackA);
+    free_all(stackA, stackB);
     return (0);
 }

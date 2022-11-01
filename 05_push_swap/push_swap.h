@@ -21,7 +21,7 @@ typedef struct s_node
 	int				value;
 	struct s_node	*prev;
 	struct s_node	*next;
-	int				info[5];
+	int				info[7];
 }	t_node;
 
 typedef struct s_stack
@@ -34,6 +34,7 @@ typedef struct s_stack
 
 int *quick_sort_stack(t_stack *stack);
 
+void    init_node(t_node *node);
 void    init_stack(t_stack *s);
 void	push_node(t_stack *stackA, t_node *node);
 void	swap_stack(t_stack *stack);
@@ -46,6 +47,9 @@ int find_lis_size(int *lis, int *index, t_stack *stack);
 void    make_lis(int *lis, int lis_size, int *index, t_stack *stack);
 int    find_lis(t_stack *stack, int *lis);
 
+int  find_min_node_idx(t_stack *stack);
+int is_sort(t_stack *stack, t_node *node);
+int is_reverse_sort(t_stack *stack, t_node *node);
 void    b_to_a(t_stack *stackA,t_stack *stackB);
 
 void	print_stack(t_stack *stackA);

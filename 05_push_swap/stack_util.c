@@ -14,11 +14,25 @@
 
 #include <stdio.h>
 
+void    init_node(t_node *node)
+{
+	int	i;
+
+    node->value = 0;
+	node->prev = 0;
+	node->next = 0;
+	i = 0;
+	while (i++ < 7)
+		node->info[i] = 0;
+	return ;
+}
+
 void    init_stack(t_stack *s)
 {
     s->size = 0;
 	s->top = 0;
 	s->bottom = 0;
+	return ;
 }
 
 void	push_node(t_stack *stack, t_node *node)
