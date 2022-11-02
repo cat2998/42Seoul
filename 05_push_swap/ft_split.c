@@ -6,16 +6,11 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 19:33:20 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/02 03:39:27 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/02 19:57:58 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int		ft_compare(char const *str, char c, int i);
-char	**ft_split_s(char **split, char const *s, char c, int size);
-char	*ft_strcpy(char const *s, int begin, int len, char *str);
-void	*ft_split_free(char **split, int split_i);
 
 char	**ft_split(char const *s, char c)
 {
@@ -73,20 +68,6 @@ char	**ft_split_s(char **split, char const *s, char c, int size)
 	}
 	split[split_i] = 0;
 	return (split);
-}
-
-char	*ft_strcpy(char const *s, int begin, int len, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		str[i] = s[begin + i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
 
 void	*ft_split_free(char **split, int split_i)

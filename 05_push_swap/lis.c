@@ -6,88 +6,89 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 22:52:40 by jgwon             #+#    #+#             */
-/*   Updated: 2022/10/31 01:34:15 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/02 20:13:35 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int lower_bound(int *list, int size, int target)
+int	lower_bound(int *list, int size, int target)
 {
-    int start;
-    int end;
-	int mid;
+	int	start;
+	int	end;
+	int	mid;
 
-    start = 0;
-    end = size-1;
+	start = 0;
+	end = size - 1;
 	while (end > start)
 	{
-		mid = (start + end) / 2; 
+		mid = (start + end) / 2;
 		if (list[mid] >= target)
 			end = mid;
-		else start = mid + 1;
+		else
+			start = mid + 1;
 	}
-	return end;
+	return (end);
 }
 
-int find_lis_size(int *lis, int *index, t_stack *stack)
+int	find_lis_size(int *lis, int *index, t_stack *stack)
 {
-    int i;
-    int size;
-    t_node *node;
+	int		i;
+	int		size;
+	t_node	*node;
 
-    i = 0;
-    size = 0;
-    node = stack->top;
-    while (i < stack->size)
-    {
-        if (size == 0 || lis[size - 1] < node->value)
-        {
-            index[i++] = size;
-            lis[size++] = node->value;
-        }
-        else
-        {
-            index[i++] = lower_bound(lis, size, node->value);
-            lis[lower_bound(lis, size, node->value)] = node->value;
-        }
-        node = node->next;
-    }
-    return (size);
+	i = 0;
+	size = 0;
+	node = stack->top;
+	while (i < stack->size)
+	{
+		if (size == 0 || lis[size - 1] < node->value)
+		{
+			index[i++] = size;
+			lis[size++] = node->value;
+		}
+		else
+		{
+			index[i++] = lower_bound(lis, size, node->value);
+			lis[lower_bound(lis, size, node->value)] = node->value;
+		}
+		node = node->next;
+	}
+	return (size);
 }
 
-void    make_lis(int *lis, int lis_size, int *index, t_stack *stack)
+void	make_lis(int *lis, int size, int *index, t_stack *stack)
 {
-    int i;
-    int find;
-    t_node  *node;
+	int		i;
+	int		find;
+	t_node	*node;
 
-    i = stack->size - 1;
-    find = lis_size - 1;
-    node = stack->bottom;
-    while (i >= 0)
-    {
-        if (index[i] == find)
-        {
-            lis[find] = node->value;
-            find--;
-        }
-        node = node->prev;
-        i--;
-    }
-    return ;
+	i = stack->size - 1;
+	find = size - 1;
+	node = stack->bottom;
+	while (i >= 0)
+	{
+		if (index[i] == find)
+		{
+			lis[find] = node->value;
+			find--;
+		}
+		node = node->prev;
+		i--;
+	}
+	return ;
 }
 
-int    find_lis(t_stack *stack, int *lis)
+int	find_lis(t_stack *stack, int *lis)
 {
-    int *index;
-    int lis_size;
+	int	*index;
+	int	lis_size;
 
-    index = malloc(sizeof(int) * stack->size);
+	index = malloc(sizeof(int) * stack->size);
 	if (!index)
 		return (1);
-    lis_size = find_lis_size(lis, index, stack);
-    make_lis(lis, lis_size, index, stack);
-    free(index);
-    return (0);
+	lis_size = find_lis_size(lis, index, stack);
+	make_lis(lis, lis_size, index, stack);
+	free(index);
+	return (0);
 }

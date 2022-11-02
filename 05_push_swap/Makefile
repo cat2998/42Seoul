@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRCS = b_to_a.c ft_split.c lis.c push_swap.c quick_sort.c stack_util.c
+SRCS = lis.c stack_utils.c a_to_b.c push_swap.c start_push_swap.c b_to_a.c utils.c b_to_a_utils.c ft_split.c stack_commands.c
 
 OBJS = $(SRCS:.c=.o)
 
