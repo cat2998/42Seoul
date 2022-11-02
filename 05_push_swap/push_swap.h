@@ -41,11 +41,15 @@ void	swap_stack(t_stack *stack);
 void	push_stack(t_stack *stackA, t_stack *stackB);
 void	rotate_stack(t_stack *stack);
 void	reverse_rotate_stack(t_stack *stack);
+int	find_node(t_stack *stack, t_node *node);
+t_node  *find_min_node(t_stack *stack);
 
-int lower_bound(int *list, int size, int target);
-int find_lis_size(int *lis, int *index, t_stack *stack);
-void    make_lis(int *lis, int lis_size, int *index, t_stack *stack);
+// int lower_bound(int *list, int size, int target);
+// int find_lis_size(int *lis, int *index, t_stack *stack);
+// void    make_lis(int *lis, int lis_size, int *index, t_stack *stack);
 int    find_lis(t_stack *stack, int *lis);
+
+int    a_to_b(t_stack *stackA, t_stack *stackB);
 
 int  find_min_node_idx(t_stack *stack);
 int is_sort(t_stack *stack, t_node *node);
@@ -56,5 +60,9 @@ void	print_stack(t_stack *stackA);
 
 char	**ft_split(char const *s, char c);
 void	*ft_split_free(char **split, int split_i);
+void	*ft_split_all_free(char **split);
+
+int ft_max(int a, int b);
+int ft_min(int a, int b);
 
 #endif

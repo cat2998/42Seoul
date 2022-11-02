@@ -15,78 +15,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ft_atoi(t_stack *stackA, char *argv)
+int get_result(char *split, long *result)
+{
+    int i;
+    int minus;
+
+    i = 0;
+    minus = 0;
+    while (split[i] != '\0')
+    {
+        if (i == 0 && split[i] == '-')
+             minus = -1;
+        else if ('0' <= split[i] && split[i] <= '9')
+        {
+            *result = *result * 10;
+            *result = *result + split[i] - '0';
+        }
+        else
+            return (1);
+        if (*result > 2147483647 && minus == 0)
+			return (1);
+		if (*result > 2147483648 && minus == -1)
+			return (1);
+        i++;
+    }
+    if (minus == -1)
+        *result = *result * minus;
+    return (0);
+}
+
+int into_stack(t_stack *stackA, char *argv)
 {
     int     i;
-    int     j;
 	long    result;
     char    **split;
     t_node *node;
 
     split = ft_split(argv, ' ');
     i = 0;
-    while (split[i] != 0)
+    while (split != 0 && split[i] != 0)
     {
-        j = 0;
         result = 0;
-        while (split[i][j] != '\0')
+        if (get_result(split[i], &result))
         {
-            if ('0' <= split[i][j] && split[i][j] <= '9')
-            {
-                result *= 10;
-                result += split[i][j] - '0';
-            }
-            j++;
+            ft_split_all_free(split);
+            return (1);
         }
         node = malloc(sizeof(t_node) * 1);
         if (!node)
-            return ;
+        {
+            ft_split_all_free(split);
+            return (1);
+        }
         init_node(node);
         node->value = result;
+        if (find_node(stackA, node))
+        {
+            ft_split_all_free(split);
+            return (1);
+        }
         push_node(stackA, node);
         i++;
     }
-    
-	return ;
-}
-
-void    split_lis_stack(t_stack *stackA, t_stack *stackB, int *lis)
-{
-    int i;
-    int j;
-    t_node  *node;
-
-    i = 0;
-    j = 0;
-    while (i++ < stackA->size + stackB->size)
-    {
-        node = stackA->top;
-        if (lis[j] == node->value)
-        {
-            printf("ra\n");
-            rotate_stack(stackA);
-            j++;
-        }
-        else
-        {
-            printf("pb\n");
-            push_stack(stackA, stackB);
-        }
-    }
-    return ;
-}
-
-int    split_stack(t_stack *stackA, t_stack *stackB)
-{
-    int *lis;
-
-    lis = malloc(sizeof(int) * stackA->size);
-    if (!lis)
-        return (0);
-    find_lis(stackA, lis);
-    split_lis_stack(stackA, stackB, lis);
-    free(lis);
-    return (1);
+    ft_split_all_free(split);
+	return (0);
 }
 
 void    sort_stack(t_stack *stack)
@@ -115,29 +107,65 @@ void    sort_stack(t_stack *stack)
     return ;
 }
 
+int is_sort_stack(t_stack *stack)
+{
+    if (stack->size > 0 && is_sort(stack, stack->top))
+        return (1);
+    if (stack->size > 0 && is_reverse_sort(stack, stack->bottom))
+    {
+        while (stack->size-- > 0)
+        {
+            rotate_stack(stack);
+            printf("ra\n");
+        }
+        return (1);
+    }
+    return (0);
+}
+
 void    free_all(t_stack *stackA, t_stack *stackB)
 {
     t_node  *node;
     t_node  *next_node;
 
-    next_node = stackA->top;
-    while(stackA->size-- > 0)
+    if (stackA->size > 0)
     {
-        node = next_node;
-        next_node = node->next;
-        free(node);
+        next_node = stackA->top;
+        while(stackA->size-- > 0)
+        {
+            node = next_node;
+            next_node = node->next;
+            free(node);
+        }
     }
     free(stackA);
     free(stackB);
-    return; 
+    return ;
 }
+
+// int make_stack(t_stack *stackA, t_stack *stackB)
+// {
+//     stackA = malloc(sizeof(t_stack) * 1);
+// 	if (!stackA)
+// 		return (1);
+//     stackB = malloc(sizeof(t_stack) * 1);
+// 	if (!stackB)
+//     {
+//         free(stackA);
+// 		return (1);
+//     }
+//     init_stack(stackA);printf("stackA->size:%d\n", stackA->size);
+//     init_stack(stackB);
+//     return (0);
+// }
 
 int main(int argc, char *argv[])
 {
-    // int *sort_list;
     t_stack *stackA;
     t_stack *stackB;
 
+    // if (make_stack(stackA, stackB))
+    //     return (0);
     stackA = malloc(sizeof(t_stack) * 1);
 	if (!stackA)
 		return (0);
@@ -151,44 +179,29 @@ int main(int argc, char *argv[])
     init_stack(stackB);
     while (argc > 1)
     {
-        ft_atoi(stackA, argv[argc - 1]);
+        if (into_stack(stackA, argv[argc - 1]))
+        {
+            printf("Error\n");
+            free_all(stackA, stackB);
+            return (0);
+        }
         argc--;
     }
-    if (stackA->size > 0 && is_sort(stackA, stackA->top))
-        return (0);
-    if (stackA->size > 0 && is_reverse_sort(stackA, stackA->bottom))
+    if (stackA->size == 0 || is_sort_stack(stackA))
     {
-        while (stackA->size-- > 0)
-        {
-            rotate_stack(stackA);
-            printf("ra\n");
-        }
+        free_all(stackA, stackB);
         return (0);
     }
-    // sort_list = quick_sort_stack(stackA);
-    // printf("----sort----\n");
-    // for(int i = 0; i < stackA->size; i++)
-    // {
-    //     printf("%d ", sort_list[i]);
-    // }
-    // printf("\n");
-    split_stack(stackA, stackB);
-    // printf("----stackA----\n");
-    // print_stack(stackA);
-    // printf("----stackB----\n");
-    // print_stack(stackB);
+    if (a_to_b(stackA, stackB))
+    {
+        free_all(stackA, stackB);
+        return (0);
+    }
     while (stackB->size > 0)
-    {
         b_to_a(stackA, stackB);
-        // printf("----stackA----\n");
-        // print_stack(stackA);
-        // printf("----stackB----\n");
-        // print_stack(stackB);
-    }
     sort_stack(stackA);
     printf("----stackA----\n");
     print_stack(stackA);
     free_all(stackA, stackB);
-    // system("leaks a.out");
     return (0);
 }

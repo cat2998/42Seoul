@@ -14,25 +14,6 @@
 
 #include <stdio.h>
 
-t_node  *find_min_node(t_stack *stack)
-{
-    int i;
-    t_node *min_node;
-    t_node *node;
-
-    i = 0;
-    node = stack->top;
-    min_node = stack->top;
-    while(i < stack->size)
-    {
-        if (min_node->value > node->value)
-            min_node = node;
-        node = node->next;
-        i++;
-    }
-    return (min_node);
-}
-
 int  find_min_node_idx(t_stack *stack)
 {
     int i;
@@ -54,36 +35,6 @@ int  find_min_node_idx(t_stack *stack)
         i++;
     }
     return (min_node_idx);
-}
-
-int is_sort(t_stack *stack, t_node *node)
-{
-    int i;
-
-    i = 0;
-    while (i < stack->size - 1)
-    {
-        if (node->value > node->next->value)
-            return (0);
-        node = node->next;
-        i++;
-    }
-    return (1);
-}
-
-int is_reverse_sort(t_stack *stack, t_node *node)
-{
-    int i;
-
-    i = 0;
-    while (i < stack->size - 1)
-    {
-        if (node->value > node->prev->value)
-            return (0);
-        node = node->prev;
-        i++;
-    }
-    return (1);
 }
 
 int find_dest(t_stack *stackA, t_stack *stackB)
@@ -115,23 +66,25 @@ int find_dest(t_stack *stackA, t_stack *stackB)
     return (0);
 }
 
-int ft_max(int a, int b)
+void    set_node_info(t_stack *stackA, t_stack *stackB, int position)
 {
-    if (a > b) 
-        return (a);
-    else
-        return (b);
+    int ra;
+    int rra;
+    int rb;
+    int rrb;
+
+    ra = find_dest(stackA, stackB);
+    rra = stackA->size - ra;
+    rb = position;
+    rrb = stackB->size - rb;
+    stackB->top->info[0] = ra;
+    stackB->top->info[1] = rb;
+    stackB->top->info[2] = rra;
+    stackB->top->info[3] = rrb;
+    return ;
 }
 
-int ft_min(int a, int b)
-{
-    if (a < b) 
-        return (a);
-    else
-        return (b);
-}
-
-int    find_min(t_node *node)
+int    find_optimum(t_node *node)
 {
     int i;
     int key;
@@ -153,21 +106,18 @@ int    find_min(t_node *node)
     return (values[key]);
 }
 
-void    set_node_info(t_stack *stackA, t_stack *stackB, int position)
+void set_node_key_info_detail(t_node *node, int a, int b, int c)
 {
-    int ra;
-    int rra;
-    int rb;
-    int rrb;
+    node->info[c] = ft_min(node->info[a], node->info[b]);
+    node->info[a] = node->info[a] - node->info[c];
+    node->info[b] = node->info[b] - node->info[c];
+    return ;
+}
 
-    ra = find_dest(stackA, stackB);
-    rra = stackA->size - ra;
-    rb = position;
-    rrb = stackB->size - rb;
-    stackB->top->info[0] = ra;
-    stackB->top->info[1] = rb;
-    stackB->top->info[2] = rra;
-    stackB->top->info[3] = rrb;
+void set_node_key_info_detail2(t_node *node, int a, int b)
+{
+    node->info[a] = 0;
+    node->info[b] = 0;
     return ;
 }
 
@@ -175,29 +125,17 @@ void    set_node_key_info(t_node *node)
 {
     if (node->info[6] == 0)
     {
-        node->info[4] = ft_min(node->info[0], node->info[1]);
-        node->info[0] = node->info[0] - node->info[4];
-        node->info[1] = node->info[1] - node->info[4];
-        node->info[2] = 0;
-        node->info[3] = 0;
+        set_node_key_info_detail(node, 0, 1, 4);
+        set_node_key_info_detail2(node, 2, 3);
     }
     else if (node->info[6] == 1)
-    {
-        node->info[1] = 0;
-        node->info[2] = 0;
-    }
+        set_node_key_info_detail2(node, 1, 2);
     else if (node->info[6] == 2)
-    {
-        node->info[0] = 0;
-        node->info[3] = 0;
-    }
+        set_node_key_info_detail2(node, 0, 3);
     else if (node->info[6] == 3)
     {
-        node->info[5] = ft_min(node->info[2], node->info[3]);
-        node->info[2] = node->info[2] - node->info[5];
-        node->info[3] = node->info[3] - node->info[5];
-        node->info[0] = 0;
-        node->info[1] = 0;
+        set_node_key_info_detail(node, 2, 3, 5);
+        set_node_key_info_detail2(node, 0, 1);
     }
     return ;
 }
@@ -241,32 +179,28 @@ void    execute(t_stack *stackA, t_stack *stackB, t_node *node)
     return ;
 }
 
-void    b_to_a(t_stack *stackA,t_stack *stackB)
+void    b_to_a(t_stack *stackA, t_stack *stackB)
 {
     int i;
-    int node_min;
-    int total_min;
-    t_node  *node;
+    int optimum;
+    int tmp;
+    t_node  *optimal_node;
 
     i = 0;
-    total_min = stackA->size + stackB->size;
+    tmp = stackA->size + stackB->size;
     while (i < stackB->size)
     {
         set_node_info(stackA, stackB, i);
-        // printf("ra:%d rb:%d rra:%d rrb:%d\n", ra, rb, rra, rrb);
-        node_min = find_min(stackB->top);
-        // printf("min:%d\n", node_min);
-        if (total_min > node_min)
+        optimum = find_optimum(stackB->top);
+        if (tmp > optimum)
         {
-            total_min = node_min;
-            node = stackB->top;
+            tmp = optimum;
+            optimal_node = stackB->top;
         }
         rotate_stack(stackB);
         i++;
     }
-    set_node_key_info(node);
-    execute(stackA, stackB, node);
-    // printf("min:%d\n", total_min);
-    // printf("idx:%d\n", node_idx);
+    set_node_key_info(optimal_node);
+    execute(stackA, stackB, optimal_node);
     return ;
 }

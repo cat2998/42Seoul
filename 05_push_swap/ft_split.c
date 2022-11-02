@@ -102,3 +102,20 @@ void	*ft_split_free(char **split, int split_i)
 	free(split);
 	return (0);
 }
+
+void	*ft_split_all_free(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (split != 0)
+	{
+		while (split[i] != 0)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+	}
+	return (0);
+}

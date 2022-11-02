@@ -12,8 +12,6 @@
 
 #include "push_swap.h"
 
-#include <stdio.h>
-
 int lower_bound(int *list, int size, int target)
 {
     int start;
@@ -55,18 +53,6 @@ int find_lis_size(int *lis, int *index, t_stack *stack)
         }
         node = node->next;
     }
-    // printf("----before lis----\n");
-    // for (int j = 0; j < i; j++)
-    // {
-    //     printf("%d ", lis[j]);
-    // }
-    // printf("\n");
-    // printf("----index----\n");
-    // for (int j = 0; j < i; j++)
-    // {
-    //     printf("%d ", index[j]);
-    // }
-    // printf("\n");
     return (size);
 }
 
@@ -99,14 +85,9 @@ int    find_lis(t_stack *stack, int *lis)
 
     index = malloc(sizeof(int) * stack->size);
 	if (!index)
-		return (0);
+		return (1);
     lis_size = find_lis_size(lis, index, stack);
-    // printf("lis_size:%d\n", lis_size);
     make_lis(lis, lis_size, index, stack);
-    // printf("----after lis----\n");
-    // for (int i = 0; i < lis_size; i++)
-        // printf("%d ", lis[i]);
-    // printf("\n");
     free(index);
-    return (1);
+    return (0);
 }
