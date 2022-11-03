@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 22:52:40 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/02 20:13:35 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:57:04 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	make_lis(int *lis, int size, int *index, t_stack *stack)
 	return ;
 }
 
-int	find_lis(t_stack *stack, int *lis)
+int	find_lis(t_stack *stack, int *lis, int *mid_lis)
 {
 	int	*index;
 	int	lis_size;
@@ -89,6 +89,7 @@ int	find_lis(t_stack *stack, int *lis)
 		return (1);
 	lis_size = find_lis_size(lis, index, stack);
 	make_lis(lis, lis_size, index, stack);
+	*mid_lis = lis[lis_size / 2];
 	free(index);
 	return (0);
 }

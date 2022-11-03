@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:14:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/02 20:10:27 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:57:09 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	is_sort(t_stack *stack, t_node *node)
 	i = 0;
 	while (i < stack->size - 1)
 	{
+		if (node->value >= 0 && node->next->value < 0)
+			return (0);
 		if (node->value > node->next->value)
 			return (0);
 		node = node->next;
@@ -50,6 +52,8 @@ int	is_reverse_sort(t_stack *stack, t_node *node)
 	i = 0;
 	while (i < stack->size - 1)
 	{
+		if (node->value >= 0 && node->prev->value < 0)
+			return (0);
 		if (node->value > node->prev->value)
 			return (0);
 		node = node->prev;

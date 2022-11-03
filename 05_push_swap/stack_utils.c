@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:36 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/02 20:54:49 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:57:06 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,13 @@ t_node	*find_min_node(t_stack *stack)
 	min_node = stack->top;
 	while (i < stack->size)
 	{
-		if (min_node->value > node->value)
+		if (node->value < 0 && min_node->value >= 0)
 			min_node = node;
+		else
+		{
+			if (min_node->value > node->value)
+				min_node = node;
+		}
 		node = node->next;
 		i++;
 	}

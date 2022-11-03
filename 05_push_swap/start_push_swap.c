@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:49:02 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/02 22:02:23 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/03 22:57:08 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_result(char *split, unsigned int *result)
 			*result = *result * 10;
 			*result = *result + split[i] - '0';
 		}
-		else
+		else if (!(i == 0 && split[i] == '+' && split[i + 1] != '\0'))
 			return (1);
 		if (*result > 2147483647 && minus == 0)
 			return (1);
@@ -91,7 +91,7 @@ int	into_stack(t_stack *stack, char *argv)
 
 int	is_sort_stack(t_stack *stack)
 {
-	if (is_reverse_sort(stack, stack->bottom))
+	if (stack->size > 5 && is_reverse_sort(stack, stack->bottom))
 	{
 		swap_stack(stack);
 		write(1, "sa\n", 3);
