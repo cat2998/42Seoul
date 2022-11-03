@@ -6,11 +6,24 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:15:11 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/03 22:57:01 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/04 01:05:38 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	init_lis(long long *lis, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		lis[i] = 2147483648;
+		i++;
+	}
+	return ;
+}
 
 void	split_stack_mid_lis(t_stack *stackA, t_stack *stackB, int mid_lis)
 {
@@ -25,7 +38,8 @@ void	split_stack_mid_lis(t_stack *stackA, t_stack *stackB, int mid_lis)
 	return ;
 }
 
-void	split_stack_lis(t_stack *stackA, t_stack *stackB, int *lis, int mid_lis)
+void	split_stack_lis(t_stack *stackA, t_stack *stackB, \
+						long long *lis, int mid_lis)
 {
 	int		i;
 	int		j;
@@ -54,12 +68,13 @@ void	split_stack_lis(t_stack *stackA, t_stack *stackB, int *lis, int mid_lis)
 
 int	a_to_b(t_stack *stackA, t_stack *stackB)
 {
-	int	*lis;
-	int	mid_lis;
+	int			mid_lis;
+	long long	*lis;
 
-	lis = malloc(sizeof(int) * stackA->size);
+	lis = malloc(sizeof(long long) * stackA->size);
 	if (!lis)
 		return (1);
+	init_lis(lis, stackA->size);
 	if (find_lis(stackA, lis, &mid_lis))
 	{
 		free(lis);

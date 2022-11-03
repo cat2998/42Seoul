@@ -6,13 +6,13 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 22:52:40 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/03 22:57:04 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/04 00:56:40 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	lower_bound(int *list, int size, int target)
+int	lower_bound(long long *list, int size, int target)
 {
 	int	start;
 	int	end;
@@ -31,7 +31,7 @@ int	lower_bound(int *list, int size, int target)
 	return (end);
 }
 
-int	find_lis_size(int *lis, int *index, t_stack *stack)
+int	find_lis_size(long long *lis, int *index, t_stack *stack)
 {
 	int		i;
 	int		size;
@@ -57,7 +57,7 @@ int	find_lis_size(int *lis, int *index, t_stack *stack)
 	return (size);
 }
 
-void	make_lis(int *lis, int size, int *index, t_stack *stack)
+void	make_lis(long long *lis, int size, int *index, t_stack *stack)
 {
 	int		i;
 	int		find;
@@ -79,7 +79,7 @@ void	make_lis(int *lis, int size, int *index, t_stack *stack)
 	return ;
 }
 
-int	find_lis(t_stack *stack, int *lis, int *mid_lis)
+int	find_lis(t_stack *stack, long long *lis, int *mid_lis)
 {
 	int	*index;
 	int	lis_size;

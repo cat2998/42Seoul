@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 22:29:24 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/03 22:53:28 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/04 00:53:02 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	*ft_split_free(char **split, int split_i);
 void	*ft_split_all_free(char **split);
 
 void	split_stack_lis(t_stack *stackA, t_stack *stackB, \
-		int *lis, int mid_lis);
+		long long *lis, int mid_lis);
 int		a_to_b(t_stack *stackA, t_stack *stackB);
 
-int		lower_bound(int *list, int size, int target);
-int		find_lis_size(int *lis, int *index, t_stack *stack);
-void	make_lis(int *lis, int lis_size, int *index, t_stack *stack);
-int		find_lis(t_stack *stack, int *lis, int *mid_lis);
+int		lower_bound(long long *list, int size, int target);
+int		find_lis_size(long long *lis, int *index, t_stack *stack);
+void	make_lis(long long *lis, int lis_size, int *index, t_stack *stack);
+int		find_lis(t_stack *stack, long long *lis, int *mid_lis);
 
 void	set_node_info(t_stack *stackA, t_stack *stackB, int position);
 int		find_optimum(t_node *node);

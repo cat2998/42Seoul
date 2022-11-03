@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:58 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/03 22:57:06 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/04 00:22:24 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,27 @@ void	three_sort_stack(t_stack *stack)
 {
 	if (is_sort(stack, stack->top))
 		return ;
-	if (is_reverse_sort(stack, stack->bottom) \
-		|| stack->top->value < stack->bottom->value)
+	else if (is_reverse_sort(stack, stack->bottom))
+	{
+		swap_stack(stack);
+		write(1, "sa\n", 3);
+		reverse_rotate_stack(stack);
+		write(1, "rra\n", 4);
+	}
+	else if (stack->top->value < stack->bottom->value)
 	{
 		swap_stack(stack);
 		write(1, "sa\n", 3);
 	}
-	while (stack->top->value > stack->bottom->value)
+	else if (stack->top->value > stack->bottom->value)
 	{
-		if (is_sort(stack, stack->top))
-			return ;
-		reverse_rotate_stack(stack);
-		write(1, "rra\n", 4);
+		rotate_stack(stack);
+		write(1, "ra\n", 3);
+	}
+	if (!is_sort(stack, stack->top))
+	{
+		rotate_stack(stack);
+		write(1, "ra\n", 3);
 	}
 	return ;
 }
@@ -88,7 +97,13 @@ void	five_sort_stack(t_stack *stackA, t_stack *stackB)
 
 void	small_sort_stack(t_stack *stackA, t_stack *stackB)
 {
-	if (stackA->size == 3)
+	if (stackA->size == 2)
+	{
+		swap_stack(stackA);
+		write(1, "sa\n", 3);
+		return ;
+	}
+	else if (stackA->size == 3)
 	{
 		three_sort_stack(stackA);
 		return ;
@@ -96,7 +111,14 @@ void	small_sort_stack(t_stack *stackA, t_stack *stackB)
 	else if (stackA->size < 6)
 	{
 		five_sort_stack(stackA, stackB);
-		three_sort_stack(stackA);
+		if (stackA->size == 2 && !is_sort(stackA, stackA->top))
+		{
+			swap_stack(stackA);
+			write(1, "sa\n", 3);
+			return ;
+		}
+		else
+			three_sort_stack(stackA);
 		return ;
 	}
 	return ;
