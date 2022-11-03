@@ -12,32 +12,6 @@
 
 #include "push_swap.h"
 
-void	sort_stack(t_stack *stack)
-{
-	int		idx;
-	int		r_idx;
-
-	idx = find_min_node_idx(stack);
-	r_idx = stack->size - idx;
-	if (idx < r_idx)
-	{
-		while (idx-- > 0)
-		{
-			rotate_stack(stack);
-			write(1, "ra\n", 3);
-		}
-	}
-	else
-	{
-		while (r_idx-- > 0)
-		{
-			reverse_rotate_stack(stack);
-			write(1, "rra\n", 4);
-		}
-	}
-	return ;
-}
-
 void	free_all(t_stack *stackA, t_stack *stackB)
 {
 	t_node	*node;

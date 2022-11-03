@@ -31,10 +31,11 @@ typedef struct s_stack
 	t_node	*bottom;
 }	t_stack;
 
+void	small_sort_stack(t_stack *stackA, t_stack *stackB);
 void	sort_stack(t_stack *stack);
 void	free_all(t_stack *stackA, t_stack *stackB);
 
-int		get_result(char *split, long *result);
+int		get_result(char *split, unsigned int *result);
 int		check_error(char *split, t_stack *stack);
 int		into_stack(t_stack *stack, char *argv);
 int		is_sort_stack(t_stack *stack);

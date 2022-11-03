@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	get_result(char *split, long *result)
+int	get_result(char *split, unsigned int *result)
 {
 	int	i;
 	int	minus;
@@ -43,8 +43,8 @@ int	get_result(char *split, long *result)
 
 int	check_error(char *split, t_stack *stack)
 {
-	long	result;
-	t_node	*node;
+	unsigned int	result;
+	t_node			*node;
 
 	result = 0;
 	if (get_result(split, &result))
@@ -70,6 +70,11 @@ int	into_stack(t_stack *stack, char *argv)
 
 	split = ft_split(argv, ' ');
 	i = 0;
+	if (split != 0 && split[i] == 0)
+	{
+		ft_split_all_free(split);
+		return (1);
+	}
 	while (split != 0 && split[i] != 0)
 		i++;
 	while (split != 0 && --i >= 0)
@@ -86,15 +91,13 @@ int	into_stack(t_stack *stack, char *argv)
 
 int	is_sort_stack(t_stack *stack)
 {
-	if (stack->size > 0 && is_sort(stack, stack->top))
-		return (1);
-	if (stack->size > 0 && is_reverse_sort(stack, stack->bottom))
+	if (is_reverse_sort(stack, stack->bottom))
 	{
 		swap_stack(stack);
 		write(1, "sa\n", 3);
-		if (is_sort(stack, stack->top))
-			return (1);
 	}
+	if (is_sort(stack, stack->top))
+		return (1);
 	return (0);
 }
 
@@ -109,10 +112,15 @@ void	push_swap(t_stack *stackA, t_stack *stackB, char *argv[], int argc)
 		}
 		argc--;
 	}
-	if (stackA->size == 0 || is_sort_stack(stackA))
+	if (stackA->size < 2 || is_sort_stack(stackA))
 		return ;
-	if (a_to_b(stackA, stackB))
-		return ;
+	if (stackA->size < 6)
+		small_sort_stack(stackA, stackB);
+	else
+	{
+		if (a_to_b(stackA, stackB))
+			return ;
+	}
 	while (stackB->size > 0)
 		b_to_a(stackA, stackB);
 	sort_stack(stackA);

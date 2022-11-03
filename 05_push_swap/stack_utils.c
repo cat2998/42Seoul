@@ -56,8 +56,8 @@ int	find_node(t_stack *stack, t_node *node)
 t_node	*find_min_node(t_stack *stack)
 {
 	int		i;
-	t_node	*min_node;
 	t_node	*node;
+	t_node	*min_node;
 
 	i = 0;
 	node = stack->top;
