@@ -15,6 +15,7 @@ CFLAGS	= -Wall -Wextra -Werror
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
+#			$(MAKE) -C $(SRVDIR)
 			$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
