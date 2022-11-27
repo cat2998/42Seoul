@@ -6,27 +6,22 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:35:59 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/26 18:06:26 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 16:06:37 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int		i;
-	size_t	count;
 
 	i = 0;
-	count = 0;
 	if (!s)
 		return (0);
 	while (s[i] != '\0')
-	{
-		count++;
 		i++;
-	}
-	return (count);
+	return (i);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)

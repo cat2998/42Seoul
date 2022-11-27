@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   printf_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 19:35:56 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 00:29:07 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 22:41:41 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-t_game    *init_game()
+void	ft_putnbr(int n)
 {
-    t_game  *game;
-	t_board	*board;
+	char	str;
 
-	game = malloc(sizeof(t_game) * 1);
-	if (!game)
-		return (0);
-	board = malloc(sizeof(t_board) * 1);
-	if (!board)
+	if (n >= 10)
 	{
-		free(game);
-		return (0);
+		ft_putnbr(n / 10);
+		str = n % 10 + 48;
 	}
-	game->board = board;
-    game->coin_cnt = 0;
-    game->walk_cnt = 0;
-	return (game);
+	else
+		str = n + 48;
+	write(1, &str, 1);
+    return ;
 }
 
 void    err(char *str, t_game *game)
@@ -45,6 +40,8 @@ void    err(char *str, t_game *game)
         write(1, &str[i], 1);
         i++;
     }
+    free(game->board);
+    free(game->map_str);
     free(game);
     exit(0);
 }

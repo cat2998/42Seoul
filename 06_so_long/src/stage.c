@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 22:56:57 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 00:49:33 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 19:38:36 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,18 @@ int key_press(int keycode, t_game *game)
 	else if (keycode == KEY_D)
 		move(game, 1);
 	else if (keycode == KEY_ESC)
-		exit(0);
+		game_exit(game);
 	return (0);
 }
+
 void	init_stage(t_game *game)
 {
 	game->board->mlx = mlx_init();
 	game->board->win = mlx_new_window(game->board->mlx, game->map_width * 64, game->map_height * 64, "my_mlx");
     init_image(game->board->mlx, game->board->img);
 	render_stage(game);
-    mlx_hook(game->board->win, X_EVENT_KEY_RELEASE, 0, &key_press, game);
+    mlx_hook(game->board->win, X_EVENT_KEY_PRESS, 0, &key_press, game);
+    mlx_hook(game->board->win, X_EVENT_KEY_EXIT, 0, &game_exit, game);
     mlx_loop_hook(game->board->mlx, &render_stage, game);
 	mlx_loop(game->board->mlx);
 }
