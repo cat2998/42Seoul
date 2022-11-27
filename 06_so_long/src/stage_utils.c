@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 23:23:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 18:49:25 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 23:52:50 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	game_clear(t_game *game)
 
 int	game_exit(t_game *game)
 {
-	free(game->board->mlx);
-	free(game->board->win);
-	free(game->board->img[0]);
-	free(game->board->img[1]);
-	free(game->board->img[2]);
-	free(game->board->img[3]);
-	free(game->board->img[4]);
-	free(game->board->img[5]);
+	mlx_destroy_image(game->board->mlx, game->board->img[0]);
+	mlx_destroy_image(game->board->mlx, game->board->img[1]);
+	mlx_destroy_image(game->board->mlx, game->board->img[2]);
+	mlx_destroy_image(game->board->mlx, game->board->img[3]);
+	mlx_destroy_image(game->board->mlx, game->board->img[4]);
+	mlx_destroy_image(game->board->mlx, game->board->img[5]);
+	mlx_destroy_window(game->board->mlx, game->board->win);
 	free(game->board);
 	free(game->map_str);
 	free(game);
+	//system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
 	exit(0);
 	return (0);
 }

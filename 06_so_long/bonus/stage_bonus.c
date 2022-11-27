@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 22:56:57 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 22:41:50 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 23:46:37 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void    init_image(void *mlx, void *img[])
 	img[3] = mlx_xpm_file_to_image(mlx, "./images/player.xpm", &img_width, &img_height);
 	img[4] = mlx_xpm_file_to_image(mlx, "./images/hole_closed.xpm", &img_width, &img_height);
 	img[5] = mlx_xpm_file_to_image(mlx, "./images/hole_opened.xpm", &img_width, &img_height);
+	img[6] = mlx_xpm_file_to_image(mlx, "./images/enemy.xpm", &img_width, &img_height);
     return ;
 }
 
@@ -40,11 +41,11 @@ int	render_stage(t_game *game)
 	while (game->map_str[i] != '\0')
 	{
 		if (game->map_str[i] == '0')
-            render_img(game, game->board->img[0], i);
+        	render_img(game, game->board->img[0], i);
 		else if (game->map_str[i] == '1')
-            render_img(game, game->board->img[1], i);
+        	render_img(game, game->board->img[1], i);
 		else if (game->map_str[i] == 'C')
-            render_img(game, game->board->img[2], i);
+        	render_img(game, game->board->img[2], i);
 		else if (game->map_str[i] == 'P')
         {
             render_img(game, game->board->img[3], i);
@@ -54,6 +55,8 @@ int	render_stage(t_game *game)
             render_img(game, game->board->img[4], i);
 		else if (game->map_str[i] == 'O')
             render_img(game, game->board->img[5], i);
+		else if (game->map_str[i] == 'M')
+            render_img(game, game->board->img[6], i);
 		i++;
 	}
 	return (0);

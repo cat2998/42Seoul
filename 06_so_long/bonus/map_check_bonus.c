@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:49:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 22:41:38 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 22:45:26 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_map_object(t_game *game)
 			game->player_loc = i;
 			start_cnt++;
 		}
-		else if (game->map_str[i] != '0' && game->map_str[i] != '1')
+		else if (game->map_str[i] != '0' && game->map_str[i] != '1' && game->map_str[i] != 'M')
 			return (1);
 		i++;
 	}

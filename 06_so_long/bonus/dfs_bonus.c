@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:45:19 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 22:41:32 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/27 22:46:22 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_visit(int *visit, int size)
 
 int	is_valid(int x, t_game *game)
 {
-	if (game->dfs_visit[x] == 1 || game->map_str[x] == '1')
+	if (game->dfs_visit[x] == 1 || game->map_str[x] == '1' || game->map_str[x] == 'M')
 		return (0);
 	return (1);
 }
