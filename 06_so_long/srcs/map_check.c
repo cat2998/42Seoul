@@ -86,7 +86,8 @@ int check_map_valid_path(t_game *game)
 
 void	check_map(t_game *game)
 {
-	if (game->map_width * game->map_height != ft_strlen(game->map_str))
+	if (game->map_width < 2 || game->map_height < 2 ||
+		game->map_width * game->map_height != ft_strlen(game->map_str))
 		err("Map is not rectangle\n", game);
 	if (check_map_wall(game))
 		err("Map is not surrounded by wall\n", game);

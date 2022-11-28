@@ -52,7 +52,7 @@ typedef struct s_game
 }	t_game;
 
 char	*make_map_str(char *sum, char *line);
-void	make_map(char *argv, t_game *game);
+void	make_map(int fd, t_game *game);
 int		check_map_wall(t_game *game);
 int		check_map_object(t_game *game);
 int		check_map_valid_path(t_game *game);

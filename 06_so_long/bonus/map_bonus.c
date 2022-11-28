@@ -38,17 +38,10 @@ char	*make_map_str(char *sum, char *line)
 	return (str);
 }
 
-void	make_map(char *argv, t_game *game)
+void	make_map(int fd, t_game *game)
 {
-	int		fd;
 	char	*line;
 
-	fd = open(argv, O_RDONLY);
-	if (fd <= 0)
-	{
-		err("File open error\n", game);
-		return ;
-	}
 	line = get_next_line(fd);
 	game->map_height = 1;
 	game->map_width = ft_strlen(line) - 1;
@@ -60,6 +53,8 @@ void	make_map(char *argv, t_game *game)
 		{
 			game->map_height += 1;
 			game->map_str = make_map_str(game->map_str, line);
+			if (game->map_width != ft_strlen(line) - 1)
+				err("Map is not rectangle\n", game);
 		}
 	}
 	close(fd);
