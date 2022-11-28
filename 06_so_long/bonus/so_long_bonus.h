@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:13:23 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 21:48:29 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/29 01:03:16 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_board
 	void	*mlx;
 	void	*win;
 	void	*img[7];
+	void	*player[4];
 }	t_board;
 
 typedef struct s_game
