@@ -24,7 +24,7 @@ CC		= gcc
 RM		= rm -f
 
 CFLAGS	= -Wall -Wextra -Werror
-INCLUDE = -lmlx -framework OpenGL -framework AppKit
+INCLUDE = (-L./mlx) -lmlx -framework OpenGL -framework AppKit
 
 %.o:	%.c
 		$(CC) $(CFLAGS) -c $< -o $@
@@ -36,7 +36,7 @@ $(NAME):	$(OBJS) $(GNL_OBJS)
 			$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(NAME)
 
 bonus:		$(BONUS_OBJS) $(GNL_OBJS)
-			$(MAKE) -C $(MLX) bonus
+			$(MAKE) -C $(MLX)
 			$(CC) $(CFLAGS) $(INCLUDE) $^ -o $(NAME)
 
 clean:
@@ -47,7 +47,6 @@ clean:
 
 fclean:		clean
 			$(RM) $(NAME)
-			$(MAKE) -C $(MLX) fclean
 
 re:			fclean all
 
