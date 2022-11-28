@@ -24,7 +24,7 @@ CC		= gcc
 RM		= rm -f
 
 CFLAGS	= -Wall -Wextra -Werror
-INCLUDE = (-L./mlx) -lmlx -framework OpenGL -framework AppKit
+INCLUDE = -L./mlx -lmlx -framework OpenGL -framework AppKit
 
 %.o:	%.c
 		$(CC) $(CFLAGS) -c $< -o $@

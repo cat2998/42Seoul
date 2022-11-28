@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 19:13:29 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 17:50:24 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 19:24:00 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ void	make_map(int fd, t_game *game)
 		if (line)
 		{
 			game->map_height += 1;
-			game->map_str = make_map_str(game->map_str, line);
 			if (game->map_width != ft_strlen(line) - 1)
 				err("Map is not rectangle\n", game);
+			game->map_str = make_map_str(game->map_str, line);
 		}
 	}
-	close(fd);
 	return ;
 }
