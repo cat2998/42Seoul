@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:13:23 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 19:24:04 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 21:52:07 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		check_map_wall(t_game *game);
 int		check_map_object(t_game *game);
 int		check_map_valid_path(t_game *game);
 void	check_map(t_game *game);
-t_game	*init_game();
+t_game	*init_game(void);
 void	game_clear(t_game *game);
 int		game_exit(t_game *game);
 void	move(t_game *game, int m);

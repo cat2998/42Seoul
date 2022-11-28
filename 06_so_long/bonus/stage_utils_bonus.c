@@ -6,13 +6,13 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 23:23:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 23:45:36 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 22:02:13 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long_bonus.h"
 
-t_game	*init_game()
+t_game	*init_game(void)
 {
 	t_game	*game;
 	t_board	*board;
@@ -69,12 +69,12 @@ int	game_exit(t_game *game)
 
 void	move(t_game *game, int m)
 {
-	if (game->map_str[game->player_loc + m] == '1' ||
+	if (game->map_str[game->player_loc + m] == '1' || \
 		game->map_str[game->player_loc + m] == 'E')
 		return ;
 	if (game->map_str[game->player_loc + m] == 'C')
 		game->coin_cnt++;
-	if (game->map_str[game->player_loc + m] == 'O' ||
+	if (game->map_str[game->player_loc + m] == 'O' || \
 		game->map_str[game->player_loc + m] == 'M')
 	{
 		game->walk_cnt++;

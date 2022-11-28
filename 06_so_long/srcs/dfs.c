@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 18:45:19 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 18:46:26 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 21:50:55 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	dfs(int x, t_game *game)
 		game->dfs_coin_cnt++;
 	if (game->map_str[x] == 'E')
 		game->dfs_exit_cnt++;
-	if (is_valid(x - game->map_width, game)) // up visit
+	if (is_valid(x - game->map_width, game))
 		dfs(x - game->map_width, game);
-	if (is_valid(x + 1, game))               // right visit
+	if (is_valid(x + 1, game))
 		dfs(x + 1, game);
-	if (is_valid(x + game->map_width, game)) // down visit 
+	if (is_valid(x + game->map_width, game))
 		dfs(x + game->map_width, game);
-	if (is_valid(x - 1, game))               // left visit
+	if (is_valid(x - 1, game))
 		dfs(x - 1, game);
 	return ;
 }

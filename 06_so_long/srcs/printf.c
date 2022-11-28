@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 19:35:56 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 23:51:17 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 21:51:52 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,24 @@ void	ft_putnbr(int n)
 	else
 		str = n + 48;
 	write(1, &str, 1);
-    return ;
+	return ;
 }
 
-void    err(char *str, t_game *game)
+void	err(char *str, t_game *game)
 {
-    int i;
-    int size;
+	int	i;
+	int	size;
 
-    write(2, "Error\n", 6);
-    size = ft_strlen(str);
-    i = 0;
-    while (i < size)
-    {
-        write(1, &str[i], 1);
-        i++;
-    }
-    free(game->board);
-    free(game->map_str);
-    free(game);
-    exit(0);
+	write(2, "Error\n", 6);
+	size = ft_strlen(str);
+	i = 0;
+	while (i < size)
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+	free(game->board);
+	free(game->map_str);
+	free(game);
+	exit(0);
 }

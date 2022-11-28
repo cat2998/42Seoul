@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:49:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 18:53:52 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/28 22:01:22 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@ int	check_map_wall(t_game *game)
 	width = 0;
 	while (width < game->map_width)
 	{
-		if (game->map_str[width] != '1' ||
-			game->map_str[game->map_width * (game->map_height - 1) + width] != '1')
+		if (game->map_str[width] != '1' || \
+			game->map_str[game->map_width * \
+			(game->map_height - 1) + width] != '1')
 			return (1);
 		width++;
 	}
 	height = 1;
 	while (height < game->map_height - 1)
 	{
-		if (game->map_str[game->map_width * height] != '1' ||
+		if (game->map_str[game->map_width * height] != '1' || \
 			game->map_str[game->map_width * (height + 1) - 1] != '1')
 			return (1);
 		height++;
@@ -65,9 +66,9 @@ int	check_map_object(t_game *game)
 	return (0);
 }
 
-int check_map_valid_path(t_game *game)
+int	check_map_valid_path(t_game *game)
 {
-	int *visit;
+	int	*visit;
 
 	visit = malloc(sizeof(int) * ft_strlen(game->map_str));
 	if (!visit)
@@ -86,7 +87,7 @@ int check_map_valid_path(t_game *game)
 
 void	check_map(t_game *game)
 {
-	if (game->map_width < 2 || game->map_height < 2 ||
+	if (game->map_width < 2 || game->map_height < 2 || \
 		game->map_width * game->map_height != ft_strlen(game->map_str))
 		err("Map is not rectangle\n", game);
 	if (check_map_wall(game))
