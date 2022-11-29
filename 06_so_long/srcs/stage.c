@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 22:56:57 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 22:02:56 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/29 21:29:23 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	init_image(void *mlx, void *img[])
 	int	wid;
 	int	hei;
 
-	img[0] = mlx_xpm_file_to_image(mlx, "./images/land.xpm", &wid, &hei);
-	img[1] = mlx_xpm_file_to_image(mlx, "./images/wall.xpm", &wid, &hei);
-	img[2] = mlx_xpm_file_to_image(mlx, "./images/coin.xpm", &wid, &hei);
-	img[3] = mlx_xpm_file_to_image(mlx, "./images/player.xpm", &wid, &hei);
-	img[4] = mlx_xpm_file_to_image(mlx, "./images/hole_closed.xpm", &wid, &hei);
-	img[5] = mlx_xpm_file_to_image(mlx, "./images/hole_opened.xpm", &wid, &hei);
+	img[0] = mlx_xpm_file_to_image(mlx, "./img/land.xpm", &wid, &hei);
+	img[1] = mlx_xpm_file_to_image(mlx, "./img/wall.xpm", &wid, &hei);
+	img[2] = mlx_xpm_file_to_image(mlx, "./img/coin.xpm", &wid, &hei);
+	img[3] = mlx_xpm_file_to_image(mlx, "./img/player.xpm", &wid, &hei);
+	img[4] = mlx_xpm_file_to_image(mlx, "./img/hole_closed.xpm", &wid, &hei);
+	img[5] = mlx_xpm_file_to_image(mlx, "./img/hole_opened.xpm", &wid, &hei);
 	return ;
 }
 

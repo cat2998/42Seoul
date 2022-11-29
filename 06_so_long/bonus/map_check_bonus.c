@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:49:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 22:08:20 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/29 21:25:24 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,14 @@ int	check_map_wall(t_game *game)
 int	check_map_object(t_game *game)
 {
 	int	i;
-	int	exit_cnt;
 	int	start_cnt;
 
 	i = 0;
-	exit_cnt = 0;
 	start_cnt = 0;
 	while (i < ft_strlen(game->map_str))
 	{
 		if (game->map_str[i] == 'E')
-			exit_cnt++;
+			game->dfs_exit_cnt++;
 		else if (game->map_str[i] == 'C')
 			game->map_coin++;
 		else if (game->map_str[i] == 'P')
@@ -62,8 +60,9 @@ int	check_map_object(t_game *game)
 			return (1);
 		i++;
 	}
-	if (exit_cnt != 1 || game->map_coin == 0 || start_cnt != 1)
+	if (game->dfs_exit_cnt != 1 || game->map_coin == 0 || start_cnt != 1)
 		return (1);
+	game->dfs_exit_cnt = 0;
 	return (0);
 }
 

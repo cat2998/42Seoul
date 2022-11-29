@@ -7,7 +7,7 @@ SRCS = $(addprefix $(SRCS_DIR),$(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
 BONUS_DIR = ./bonus/
-BONUS_NAME = so_long_bonus.c map_bonus.c map_check_bonus.c dfs_bonus.c stage_bonus.c stage_utils_bonus.c printf_bonus.c
+BONUS_NAME = so_long_bonus.c map_bonus.c map_check_bonus.c dfs_bonus.c stage_bonus.c stage_render_bonus.c stage_utils_bonus.c printf_bonus.c
 
 BONUS_SRCS = $(addprefix $(BONUS_DIR),$(BONUS_NAME))
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)

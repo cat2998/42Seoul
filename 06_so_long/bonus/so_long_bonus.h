@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:13:23 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/29 01:03:16 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/29 21:17:02 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_board
 	void	*mlx;
 	void	*win;
 	void	*img[7];
-	void	*player[4];
+	void	*coin[4];
+	void	*player[4][4];
 }	t_board;
 
 typedef struct s_game
@@ -45,6 +46,7 @@ typedef struct s_game
 	char	*map_str;
 	int		map_coin;
 	int		player_loc;
+	int		player_dir;
 	int		coin_cnt;
 	int		walk_cnt;
 	int		*dfs_visit;
@@ -61,15 +63,16 @@ void	check_map(t_game *game);
 t_game	*init_game(void);
 void	game_clear(t_game *game);
 int		game_exit(t_game *game);
-void	move(t_game *game, int m);
+void	move(int dir, t_game *game, int m);
 void	render_img(t_game *game, void *img, int i);
-void	init_image(void *mlx, void *img[]);
+void	init_image(void *mlx, void *img[], void *coin[], t_game *game);
 int		render_stage(t_game *game);
 int		key_press(int keycode, t_game *game);
 void	init_stage(t_game *game);
 void	init_visit(int *visit, int size);
 int		is_valid(int x, t_game *game);
 void	dfs(int x, t_game *game);
+void	set_dir(int dir, t_game *game);
 void	ft_putnbr(int n);
 void	err(char *str, t_game *game);
 
