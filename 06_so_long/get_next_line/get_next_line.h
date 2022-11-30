@@ -22,6 +22,7 @@ int		ft_strlen(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strchr(char *s, int c);
+char	*ft_itoa(int n);
 char	*ft_substr(char *sum, unsigned int start, size_t len);
 int		ft_find_newline(char *sum);
 char	*get_next_line(int fd);

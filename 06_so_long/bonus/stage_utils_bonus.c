@@ -96,16 +96,3 @@ void	game_clear(t_game *game)
 	}
 	return ;
 }
-
-void	set_dir(int dir, t_game *game)
-{
-	if (dir == 0)
-		game->player_dir = 0;
-	else if (dir == 1)
-		game->player_dir = 1;
-	else if (dir == 2)
-		game->player_dir = 2;
-	else if (dir == 3)
-		game->player_dir = 3;
-	return ;
-}

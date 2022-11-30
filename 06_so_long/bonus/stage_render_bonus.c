@@ -12,6 +12,19 @@
 
 #include "so_long_bonus.h"
 
+void	render_walk(t_game *game)
+{
+	char	*str;
+
+	str = ft_itoa(game->player_loc);
+	game->walk_cnt++;
+	ft_putnbr(game->walk_cnt);
+	write(1, "\n", 1);
+	mlx_string_put(game->board->mlx, game->board->win, 24, 36, 0x000000, str); //0x00FF0000
+	free(str);
+	return ;
+}
+
 void	render_img(t_game *game, void *img, int i)
 {
 	mlx_put_image_to_window(game->board->mlx, game->board->win, img, \

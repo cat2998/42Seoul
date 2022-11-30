@@ -47,20 +47,16 @@ void	move(int dir, t_game *game, int m)
 	if (game->map_str[game->player_loc + m] == 'O' || \
 		game->map_str[game->player_loc + m] == 'M')
 	{
-		game->walk_cnt++;
-		ft_putnbr(game->walk_cnt);
-		write(1, "\n", 1);
+		render_walk(game);
 		game_exit(game);
 	}
 	game->map_str[game->player_loc] = '0';
 	game->player_loc += m;
 	game->map_str[game->player_loc] = 'P';
-	game->walk_cnt++;
+	game->player_dir = dir;
 	if (game->map_coin == game->coin_cnt)
 		game_clear(game);
-	ft_putnbr(game->walk_cnt);
-	write(1, "\n", 1);
-	set_dir(dir, game);
+	render_walk(game);
 	return ;
 }
 
