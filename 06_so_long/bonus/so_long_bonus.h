@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:13:23 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/29 21:17:02 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 22:06:33 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,16 @@ t_game	*init_game(void);
 void	game_clear(t_game *game);
 int		game_exit(t_game *game);
 void	move(int dir, t_game *game, int m);
+void	render_walk(t_game *game);
 void	render_img(t_game *game, void *img, int i);
 void	init_image(void *mlx, void *img[], void *coin[], t_game *game);
 int		render_stage(t_game *game);
 int		key_press(int keycode, t_game *game);
 void	init_stage(t_game *game);
 void	init_visit(int *visit, int size);
-int		is_valid(int x, t_game *game);
-void	dfs(int x, t_game *game);
-void	set_dir(int dir, t_game *game);
+int		is_valid(int flag, int x, t_game *game);
+void	dfs(int flag, int x, t_game *game);
+char	*ft_itoa(int n);
 void	ft_putstr(char *s);
 void	ft_putnbr(int n);
 void	err(char *str, t_game *game);

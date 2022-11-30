@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:35:59 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/27 16:06:37 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 19:27:14 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,17 @@ int	ft_strchr(char *s, int c)
 	return (-1);
 }
 
-char	*ft_itoa(int n)
+int	ft_size(int n)
 {
-	int		size;
-	int		minus;
-	char	*str;
+	int	count;
 
-	minus = 1;
-	if (n < 0)
-		minus *= -1;
-	size = ft_size(n);
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (!str)
-		return (0);
-	str[size--] = '\0';
-	while (size >= 0)
+	count = 0;
+	if (n == 0)
+		return (1);
+	while (n != 0)
 	{
-		str[size] = ft_abs(n % 10) + 48;
+		count++;
 		n = n / 10;
-		size--;
 	}
-	if (minus == -1)
-		str[0] = '-';
-	return (str);
+	return (count);
 }

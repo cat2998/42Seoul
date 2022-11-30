@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 15:11:02 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 19:26:16 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 23:36:55 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (0);
-	check_file_name(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd <= 0)
+	{
+		ft_putstr("Error\nFile open error\n");
 		return (0);
+	}
+	check_file_name(argv[1]);
 	game = init_game();
 	if (!game)
 		return (0);

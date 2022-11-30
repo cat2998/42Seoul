@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:39:29 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/29 21:09:25 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 22:34:35 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ void	render_walk(t_game *game)
 {
 	char	*str;
 
-	str = ft_itoa(game->player_loc);
-	game->walk_cnt++;
-	ft_putnbr(game->walk_cnt);
-	write(1, "\n", 1);
-	mlx_string_put(game->board->mlx, game->board->win, 24, 36, 0x000000, str); //0x00FF0000
+	str = ft_itoa(game->walk_cnt);
+	mlx_string_put(game->board->mlx, game->board->win, 28, 36, 0x00000000, str);
 	free(str);
 	return ;
 }
@@ -73,5 +70,6 @@ int	render_stage(t_game *game)
 		i++;
 	}
 	c_i++;
+	render_walk(game);
 	return (0);
 }

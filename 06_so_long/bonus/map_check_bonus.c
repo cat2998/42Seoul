@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:49:49 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/29 21:25:24 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 22:06:53 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ int	check_map_valid_path(t_game *game)
 		return (1);
 	init_visit(visit, ft_strlen(game->map_str));
 	game->dfs_visit = visit;
-	dfs(game->player_loc, game);
+	dfs(0, game->player_loc, game);
+	init_visit(game->dfs_visit, ft_strlen(game->map_str));
+	dfs(1, game->player_loc, game);
 	free(game->dfs_visit);
 	if (game->dfs_coin_cnt != game->map_coin || game->dfs_exit_cnt != 1)
 		return (1);

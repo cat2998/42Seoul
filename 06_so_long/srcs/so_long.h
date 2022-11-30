@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:13:23 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/28 21:52:07 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 22:04:39 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int		render_stage(t_game *game);
 int		key_press(int keycode, t_game *game);
 void	init_stage(t_game *game);
 void	init_visit(int *visit, int size);
-int		is_valid(int x, t_game *game);
-void	dfs(int x, t_game *game);
+int		is_valid(int flag, int x, t_game *game);
+void	dfs(int flag, int x, t_game *game);
 void	ft_putstr(char *s);
 void	ft_putnbr(int n);
 void	err(char *str, t_game *game);

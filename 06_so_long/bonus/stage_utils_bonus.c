@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 23:23:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/29 21:22:02 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/11/30 19:26:41 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,23 @@ void	game_clear(t_game *game)
 		i++;
 	}
 	return ;
+}
+
+char	*ft_itoa(int n)
+{
+	int		size;
+	char	*str;
+
+	size = ft_size(n);
+	str = (char *)malloc(sizeof(char) * (size + 1));
+	if (!str)
+		return (0);
+	str[size--] = '\0';
+	while (size >= 0)
+	{
+		str[size] = n % 10 + 48;
+		n = n / 10;
+		size--;
+	}
+	return (str);
 }
