@@ -28,7 +28,7 @@ void	init_visit(int *visit, int size)
 int	is_valid(int x, t_game *game)
 {
 	if (game->dfs_visit[x] == 1 || game->map_str[x] == '1' || \
-		game->map_str[x] == 'M')
+		game->map_str[x] == 'E' || game->map_str[x] == 'M')
 		return (0);
 	return (1);
 }

@@ -12,6 +12,14 @@
 
 #include "so_long.h"
 
+void	ft_putstr(char *s)
+{
+	if (!s)
+		return ;
+	write(1, s, ft_strlen(s));
+	return ;
+}
+
 void	ft_putnbr(int n)
 {
 	char	str;
@@ -29,17 +37,8 @@ void	ft_putnbr(int n)
 
 void	err(char *str, t_game *game)
 {
-	int	i;
-	int	size;
-
 	write(2, "Error\n", 6);
-	size = ft_strlen(str);
-	i = 0;
-	while (i < size)
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
+	ft_putstr(str);
 	free(game->board);
 	free(game->map_str);
 	free(game);

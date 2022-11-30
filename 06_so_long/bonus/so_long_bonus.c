@@ -12,6 +12,22 @@
 
 #include "so_long_bonus.h"
 
+void	check_file_name(char *argv)
+{
+	int	len;
+
+	len = ft_strlen(argv);
+	if (len < 4 || \
+		argv[len - 4] != '.' || argv[len - 3] != 'b' || \
+		argv[len - 2] != 'e' || argv[len - 1] != 'r')
+	{
+		write(2, "Error\n", 6);
+		ft_putstr("File name error\n");
+		exit(0);
+	}
+	return ;
+}
+
 int	main(int argc, char *argv[])
 {
 	int		fd;
@@ -19,6 +35,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (0);
+	check_file_name(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd <= 0)
 		return (0);

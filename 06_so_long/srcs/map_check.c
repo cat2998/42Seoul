@@ -76,12 +76,9 @@ int	check_map_valid_path(t_game *game)
 	init_visit(visit, ft_strlen(game->map_str));
 	game->dfs_visit = visit;
 	dfs(game->player_loc, game);
-	if (game->dfs_coin_cnt != game->map_coin || game->dfs_exit_cnt != 1)
-	{
-		free(game->dfs_visit);
-		return (1);
-	}
 	free(game->dfs_visit);
+	if (game->dfs_coin_cnt != game->map_coin || game->dfs_exit_cnt != 1)
+		return (1);
 	return (0);
 }
 
@@ -93,7 +90,7 @@ void	check_map(t_game *game)
 	if (check_map_wall(game))
 		err("Map is not surrounded by wall\n", game);
 	if (check_map_object(game))
-		err("Map don't have necessary object\n", game);
+		err("Map components are not appropriate\n", game);
 	if (check_map_valid_path(game))
 		err("Map don't have valid path\n", game);
 	return ;

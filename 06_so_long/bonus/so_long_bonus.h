@@ -73,6 +73,7 @@ void	init_visit(int *visit, int size);
 int		is_valid(int x, t_game *game);
 void	dfs(int x, t_game *game);
 void	set_dir(int dir, t_game *game);
+void	ft_putstr(char *s);
 void	ft_putnbr(int n);
 void	err(char *str, t_game *game);
 

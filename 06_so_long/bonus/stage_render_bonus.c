@@ -27,20 +27,18 @@ void	render_img_player(t_game *game, int i)
 	return ;
 }
 
-void	render_img_coin(t_game *game, int i)
+void	render_img_coin(t_game *game, int i, size_t c_i)
 {
-	static int	s;
-
 	mlx_put_image_to_window(game->board->mlx, game->board->win, \
-				game->board->coin[s % 4], \
+				game->board->coin[c_i % 4], \
 				(i % game->map_width) * 64, (i / game->map_width) * 64);
-	s++;
 	return ;
 }
 
 int	render_stage(t_game *game)
 {
-	int	i;
+	int				i;
+	static size_t	c_i;
 
 	i = 0;
 	while (game->map_str[i] != '\0')
@@ -50,7 +48,7 @@ int	render_stage(t_game *game)
 		else if (game->map_str[i] == '1')
 			render_img(game, game->board->img[1], i);
 		else if (game->map_str[i] == 'C')
-			render_img_coin(game, i);
+			render_img_coin(game, i, c_i);
 		else if (game->map_str[i] == 'P')
 			render_img_player(game, i);
 		else if (game->map_str[i] == 'E')
@@ -61,5 +59,6 @@ int	render_stage(t_game *game)
 			render_img(game, game->board->img[6], i);
 		i++;
 	}
+	c_i++;
 	return (0);
 }
