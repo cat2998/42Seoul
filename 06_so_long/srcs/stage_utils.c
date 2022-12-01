@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 23:23:38 by jgwon             #+#    #+#             */
-/*   Updated: 2022/11/30 23:37:09 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/12/01 23:15:17 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	move(t_game *game, int m)
 		game_exit(game);
 	}
 	game->map_str[game->player_loc] = '0';
-	game->map_str[game->player_loc + m] = 'P';
+	game->player_loc += m;
+	game->map_str[game->player_loc] = 'P';
 	game->walk_cnt++;
 	if (game->map_coin == game->coin_cnt)
 		game_clear(game);
