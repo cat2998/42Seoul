@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:34:32 by jgwon             #+#    #+#             */
-/*   Updated: 2022/12/11 21:37:27 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/12/26 22:42:30 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
 
 typedef struct s_table
 {
-    int number;
-    int *fork;
-    int time_to_die;
-    int time_to_eat;
-    int time_to_sleep;
-    int must_eat;
+	int number;
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	int must_eat;
+	t_philosopher	*philosophers;
 } t_table;
 
 typedef struct s_philosopher
 {
-    int *state;
-    int eat;
+	int state;	// 0:먹기 1:생각하기 2:잠자기
+	int time;
 } t_philosopher;
 
 

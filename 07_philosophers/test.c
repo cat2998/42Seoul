@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 23:12:20 by jgwon             #+#    #+#             */
-/*   Updated: 2022/12/11 21:38:50 by jgwon            ###   ########.fr       */
+/*   Updated: 2022/12/26 22:22:03 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*test(void *data)
 {
 	pthread_mutex_lock(&mutex);
 	mail += *(int *)data;
+	printf("mail: %d\n", mail);
 	pthread_mutex_unlock(&mutex);
 }
 
