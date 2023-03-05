@@ -6,7 +6,7 @@
 /*   By: jgwon <jgwon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 21:38:12 by jgwon             #+#    #+#             */
-/*   Updated: 2022/12/26 23:32:38 by jgwon            ###   ########.fr       */
+/*   Updated: 2023/03/05 23:11:38 by jgwon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int init_table(t_table *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	int				i;
-	t_table 		*table;
-	
+	t_table 		*table;	
 
 	if (argc != 5 && argc != 6)
 		exit(1);
