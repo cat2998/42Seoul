@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#define NUM_PHILS 5
+#define NUM_PHILS 5 // 철학자 수
 
 enum {THINKING, HUNGRY, EATING} state[NUM_PHILS];
 
